@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StaffLoginRequest;
 
+
 class LoginController extends Controller
 {
     public function login(StaffLoginRequest $request)
@@ -25,7 +26,8 @@ class LoginController extends Controller
                 return back()->withErrors(['email' => '権限がありません']);
             }
 
-            return redirect('/staff/dashboard');
+            
+            return redirect('/attendance');
         }
 
         return back()->withErrors(['email' => 'ログイン情報が正しくありません']);
@@ -42,7 +44,7 @@ class LoginController extends Controller
 
         Auth::login($user);
 
-        return redirect('/staff/dashboard');
+        return redirect('/attendance');
     }
 
     //

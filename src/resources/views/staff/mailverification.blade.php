@@ -11,7 +11,7 @@
 <div class="container">
     <h2>メール認証完了</h2>
 
-    <a href="{{ route('staff.dashboard') }}" class="btn btn-primary">
+    <a href="{{ route('attendance') }}" class="btn btn-primary">
         勤怠登録へ
     </a>
 </div>

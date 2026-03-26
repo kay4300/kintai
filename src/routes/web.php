@@ -17,25 +17,18 @@ Route::get('/login', function () {
 Route::post('/login', [StaffLogin::class, 'login']);
 
 // メール認証誘導画面表示
+// Route::get('/email/verify', function () {
+//     return view('staff.mailenable');
+// })->middleware('auth')->name('verification.notice');
 Route::get('/mailenable', function () {
     return view('staff.mailenable');
-})->name('mailenable');
+})->middleware('auth')->name('mailenable');
 
 // 認証リンク（メール内のURL）
-Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
-
-    $user = User::findOrFail($id);
-
-    // メール認証済みにする
-    $user->email_verified_at = now();
-    $user->save();
-
-    // ログインさせる
-    Auth::login($user);
-
-    return redirect('/staff/dashboard');
-
-})->middleware(['signed'])->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/attendance');
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
 // 再送
 Route::post('/email/verification-notification', function () {
@@ -58,9 +51,9 @@ Route::get('/admin/login', function () {
 Route::post('/admin/login', [AdminLogin::class, 'login']);
 
 // ログイン後画面表示
-Route::get('/staff/dashboard', function () {
-    return view('staff.dashboard');
-});
+Route::get('/attendance', function () {
+    return view('staff.attendance');
+})->middleware(['auth', 'verified']);
 
 //ログアウト 
 Route::post('/logout', function () {

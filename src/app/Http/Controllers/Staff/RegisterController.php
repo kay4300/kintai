@@ -24,6 +24,8 @@ class RegisterController extends Controller
         Auth::login($user);
 
         event(new Registered($user));
+        $user->sendEmailVerificationNotification();
+
 
         return redirect()->route('mailenable');
     }
