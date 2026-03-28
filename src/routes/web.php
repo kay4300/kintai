@@ -5,16 +5,17 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Staff\LoginController as StaffLogin;
 use App\Http\Controllers\Admin\LoginController as AdminLogin;
 use App\Http\Controllers\Staff\RegisterController;
+use App\Http\Controllers\Staff\AttendanceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\User;
 
 // スタッフ
 // 画面表示
-Route::get('/login', function () {
-    return view('staff.login');
-})->name('login');
+// Route::get('/login', function () {
+//     return view('staff.login');
+// })->name('login');
 // ログイン処理
-Route::post('/login', [StaffLogin::class, 'login']);
+// Route::post('/login', [StaffLogin::class, 'login']);
 
 // メール認証誘導画面表示
 // Route::get('/email/verify', function () {
@@ -22,7 +23,7 @@ Route::post('/login', [StaffLogin::class, 'login']);
 // })->middleware('auth')->name('verification.notice');
 Route::get('/mailenable', function () {
     return view('staff.mailenable');
-})->middleware('auth')->name('mailenable');
+})->middleware('auth')->name('verification.notice');
 
 // 認証リンク（メール内のURL）
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
@@ -35,6 +36,8 @@ Route::post('/email/verification-notification', function () {
     request()->user()->sendEmailVerificationNotification();
     return back()->with('message', '再送しました');
 })->middleware(['auth'])->name('verification.send');
+
+
 
 // 登録画面
 Route::get('/register', function () {
@@ -51,9 +54,8 @@ Route::get('/admin/login', function () {
 Route::post('/admin/login', [AdminLogin::class, 'login']);
 
 // ログイン後画面表示
-Route::get('/attendance', function () {
-    return view('staff.attendance');
-})->middleware(['auth', 'verified']);
+Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance')
+->middleware(['auth', 'verified']);
 
 //ログアウト 
 Route::post('/logout', function () {

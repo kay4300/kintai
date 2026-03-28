@@ -1,1 +1,6 @@
-<h1>勤怠</h1>
+@extends('layouts.app')
+
+@section('content')
+<h1>出勤管理画面</h1>
+<p>ここに出勤情報やユーザー情報を表示します。</p>
+@endsection

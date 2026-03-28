@@ -21,30 +21,29 @@
 
             <!-- 右側ナビは特定ページのみ表示 -->
             @if(
-             !in_array(Route::currentRouteName(), ['login', 'register', 'mailenable', 'mailverification'])
-             && !(Route::currentRouteName() === 'top' && !auth()->check())
-             )
-               @auth
-               <div class="header__nav">
-                  <form action="{{ route('logout') }}" method="POST" class="header__logout-form">
-                      @csrf
-                      <button type="submit">ログアウト</button>
-                  </form>
-                 <!-- 管理者ナビ -->
-                  @if(auth()->user()->role === 'admin')
-                    <a href="{{ route('admin.attendance.index') }}" class="header__link">勤怠一覧</a>
-                    <a href="{{ route('admin.staff.index') }}" class="header__link">スタッフ一覧</a>
-                    <a href="{{ route('admin.request.index') }}" class="header__link">申請一覧</a>
-                  @endif
+            !in_array(Route::currentRouteName(), ['login', 'register', 'mailenable', 'mailverification'])
+            && !(Route::currentRouteName() === 'top' && !auth()->check())
+            )
+            @auth
+            <div class="header__nav">
+                <form action="{{ route('logout') }}" method="POST" class="header__logout-form">
+                    @csrf
+                    <button type="submit">ログアウト</button>
+                </form>
+                <!-- 管理者ナビ -->
+                @if(auth()->user()->role === 'admin')
+                <a href="{{ route('admin.attendance.index') }}" class="header__link">勤怠一覧</a>
+                <a href="{{ route('admin.staff.index') }}" class="header__link">スタッフ一覧</a>
+                <a href="{{ route('admin.request.index') }}" class="header__link">申請一覧</a>
+                @endif
 
-                  <!-- スタッフナビ -->
-                  @if(auth()->user()->role === 'staff')
-                    <a href="{{ route('staff.attendance.create') }}" class="header__link">勤怠</a>
-                    <a href="{{ route('staff.attendance.index') }}" class="header__link">勤怠一覧</a>
-                    <a href="{{ route('staff.request.index') }}" class="header__link">申請</a>
-                  @endif
-               </div>
-               @endauth
+                <!-- スタッフナビ -->
+                @if(auth()->user()->role === 'staff')
+                <a href="{{ route('attendance') }}" class="header__link">勤怠</a>
+                
+                @endif
+            </div>
+            @endauth
             @endif
         </div>
     </header>

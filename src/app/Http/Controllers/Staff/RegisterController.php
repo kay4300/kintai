@@ -27,7 +27,7 @@ class RegisterController extends Controller
         $user->sendEmailVerificationNotification();
 
 
-        return redirect()->route('mailenable');
+        return redirect()->route('verification.notice');
     }
     //
 }
