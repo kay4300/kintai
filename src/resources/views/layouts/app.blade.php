@@ -24,26 +24,79 @@
             !in_array(Route::currentRouteName(), ['login', 'register', 'mailenable', 'mailverification'])
             && !(Route::currentRouteName() === 'top' && !auth()->check())
             )
-            @auth
+
+            {{-- 管理者 --}}
+            @php
+            $route = Route::currentRouteName();
+            @endphp
+
+            @if(auth('admin')->check())
             <div class="header__nav">
-                <form action="{{ route('logout') }}" method="POST" class="header__logout-form">
+
+                <form action="{{ route('admin.logout') }}" method="POST">
                     @csrf
                     <button type="submit">ログアウト</button>
                 </form>
-                <!-- 管理者ナビ -->
-                @if(auth()->user()->role === 'admin')
-                <a href="{{ route('admin.attendance.index') }}" class="header__link">勤怠一覧</a>
+
+                {{-- 勤怠一覧 --}}
+                @if($route === 'admin.dashboard')
+                <span class="header__link active">勤怠一覧</span>
+                @else
+                <a href="{{ route('admin.dashboard') }}" class="header__link">勤怠一覧</a>
+                @endif
+
+                {{-- スタッフ一覧 --}}
+                @if($route === 'admin.staff.index')
+                <span class="header__link active">スタッフ一覧</span>
+                @else
                 <a href="{{ route('admin.staff.index') }}" class="header__link">スタッフ一覧</a>
+                @endif
+
+                {{-- 申請一覧 --}}
+                @if($route === 'admin.request.index')
+                <span class="header__link active">申請一覧</span>
+                @else
                 <a href="{{ route('admin.request.index') }}" class="header__link">申請一覧</a>
                 @endif
 
-                <!-- スタッフナビ -->
-                @if(auth()->user()->role === 'staff')
-                <a href="{{ route('attendance') }}" class="header__link">勤怠</a>
-                
+            </div>
+            @endif
+
+            {{-- スタッフ --}}
+            @php
+            $route = Route::currentRouteName();
+            @endphp
+            
+            @if(auth('web')->check())
+            <div class="header__nav">
+
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit">ログアウト</button>
+                </form>
+
+                {{-- 勤怠 --}}
+                @if($route === 'staff.attendance.create')
+                <span class="header__link active">勤怠</span>
+                @else
+                <a href="{{ route('staff.attendance.create') }}" class="header__link">勤怠</a>
+                @endif
+
+                {{-- 勤怠一覧 --}}
+                @if($route === 'staff.attendance.index')
+                <span class="header__link active">勤怠一覧</span>
+                @else
+                <a href="{{ route('staff.attendance.index') }}" class="header__link">勤怠一覧</a>
+                @endif
+
+                {{-- 申請 --}}
+                @if($route === 'staff.request.index')
+                <span class="header__link active">申請</span>
+                @else
+                <a href="{{ route('staff.request.index') }}" class="header__link">申請</a>
                 @endif
             </div>
-            @endauth
+            @endif
             @endif
         </div>
     </header>

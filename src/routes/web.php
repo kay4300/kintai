@@ -3,9 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Staff\LoginController as StaffLogin;
-use App\Http\Controllers\Admin\LoginController as AdminLogin;
+use App\Http\Controllers\Admin\LoginController as AdminLoginController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\StaffController;
+use App\Http\Controllers\Admin\RequestController as AdminRequestController;
 use App\Http\Controllers\Staff\RegisterController;
 use App\Http\Controllers\Staff\AttendanceController;
+use App\Http\Controllers\Staff\RequestController as StaffRequestController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\User;
 
@@ -37,8 +41,6 @@ Route::post('/email/verification-notification', function () {
     return back()->with('message', '再送しました');
 })->middleware(['auth'])->name('verification.send');
 
-
-
 // 登録画面
 Route::get('/register', function () {
     return view('staff.register');
@@ -46,16 +48,9 @@ Route::get('/register', function () {
 // 登録処理
 Route::post('/register', [RegisterController::class, 'register']);
 
-// 管理者画面表示
-Route::get('/admin/login', function () {
-    return view('admin.login');
-})->name('admin.login');
-// ログイン処理
-Route::post('/admin/login', [AdminLogin::class, 'login']);
-
 // ログイン後画面表示
-Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance')
-->middleware(['auth', 'verified']);
+// Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance')
+// ->middleware(['auth', 'verified']);
 
 //ログアウト 
 Route::post('/logout', function () {
@@ -63,7 +58,51 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
+Route::middleware('auth')->group(function () {
 
+    // 勤怠打刻
+    Route::get('/attendance', [AttendanceController::class, 'create'])
+        ->name('staff.attendance.create');
+    Route::post('/attendance/start', [AttendanceController::class, 'startWork']);
+    Route::post('/break/start', [AttendanceController::class, 'startBreak']);
+    Route::post('/break/end', [AttendanceController::class, 'endBreak']);
+    Route::post('/attendance/end', [AttendanceController::class, 'endWork']);    
+
+    // 勤怠一覧
+    Route::get('/attendance/list', [AttendanceController::class, 'index'])
+        ->name('staff.attendance.index');
+
+    // 申請一覧
+    Route::get('/request/list', [StaffRequestController::class, 'index'])
+        ->name('staff.request.index');
+});
+
+
+Route::prefix('admin')->name('admin.')->group(function () {
+
+        // ログイン画面
+        Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
+
+        // ログイン処理
+        Route::post('/login', [AdminLoginController::class, 'login']);
+
+        //ログアウト 
+        Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
+
+        // ログイン後
+        Route::middleware('auth:admin')->group(function () {
+
+            // ダッシュボード（勤怠一覧）
+            Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+            // スタッフ一覧画面
+            Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.index');
+            // 申請一覧画面
+            Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('request.index');
+    });  
+
+            
+    });        
 
 /*
 |--------------------------------------------------------------------------
