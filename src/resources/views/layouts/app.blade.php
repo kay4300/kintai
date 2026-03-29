@@ -76,17 +76,17 @@
                 </form>
 
                 {{-- 勤怠 --}}
-                @if($route === 'staff.attendance.create')
+                @if($route === 'staff.attendance.index')
                 <span class="header__link active">勤怠</span>
                 @else
-                <a href="{{ route('staff.attendance.create') }}" class="header__link">勤怠</a>
+                <a href="{{ route('staff.attendance.index') }}" class="header__link">勤怠</a>
                 @endif
 
                 {{-- 勤怠一覧 --}}
-                @if($route === 'staff.attendance.index')
+                @if($route === 'staff.attendance.list')
                 <span class="header__link active">勤怠一覧</span>
                 @else
-                <a href="{{ route('staff.attendance.index') }}" class="header__link">勤怠一覧</a>
+                <a href="{{ route('staff.attendance.list') }}" class="header__link">勤怠一覧</a>
                 @endif
 
                 {{-- 申請 --}}

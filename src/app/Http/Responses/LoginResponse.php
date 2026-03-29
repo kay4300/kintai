@@ -19,7 +19,7 @@ class LoginResponse implements LoginResponseContract
 
         // メール認証済みかどうか
         if ($user->hasVerifiedEmail()) {
-            return redirect()->route('attendance'); // 認証済みなら出勤ページ
+            return redirect()->route('staff.attendance.index'); // 認証済みなら出勤ページ
         }
 
         // 未認証ならメール認証ページ

@@ -61,16 +61,24 @@ Route::post('/logout', function () {
 Route::middleware('auth')->group(function () {
 
     // 勤怠打刻
-    Route::get('/attendance', [AttendanceController::class, 'create'])
-        ->name('staff.attendance.create');
-    Route::post('/attendance/start', [AttendanceController::class, 'startWork']);
-    Route::post('/break/start', [AttendanceController::class, 'startBreak']);
-    Route::post('/break/end', [AttendanceController::class, 'endBreak']);
-    Route::post('/attendance/end', [AttendanceController::class, 'endWork']);    
+    Route::get('/attendance', [AttendanceController::class, 'index'])
+        ->name('staff.attendance.index');
+
+    Route::post('/attendance/start', [AttendanceController::class, 'startWork'])
+        ->name('attendance.start');
+
+    Route::post('/break/start', [AttendanceController::class, 'startBreak'])
+        ->name('break.start');
+
+    Route::post('/break/end', [AttendanceController::class, 'endBreak'])
+        ->name('break.end');
+
+    Route::post('/attendance/end', [AttendanceController::class, 'endWork'])
+        ->name('attendance.end');
 
     // 勤怠一覧
-    Route::get('/attendance/list', [AttendanceController::class, 'index'])
-        ->name('staff.attendance.index');
+    Route::get('/attendance/list', [AttendanceController::class, 'list'])
+        ->name('staff.attendance.list');
 
     // 申請一覧
     Route::get('/request/list', [StaffRequestController::class, 'index'])

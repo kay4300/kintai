@@ -27,7 +27,7 @@ class LoginController extends Controller
             }
 
             
-            return redirect('/attendance');
+            return redirect('staff.attendance.index');
         }
 
         return back()->withErrors(['email' => 'ログイン情報が正しくありません']);
@@ -44,7 +44,7 @@ class LoginController extends Controller
 
         Auth::login($user);
 
-        return redirect('/attendance');
+        return redirect('staff.attendance.index');
     }
 
     //

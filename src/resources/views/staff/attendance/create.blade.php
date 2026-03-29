@@ -1,33 +1,65 @@
 @extends('layouts.app')
 
-@section('title', 'kintai')
-
 @section('content')
+<div class="text-center">
 
-<p>{{ now()->format('Y年m月d日 H:i') }}</p>
+    {{-- ステータス表示 --}}
+    <p>
+        @if(!$attendance)
+        勤務外
+        @elseif($attendance->status === 1)
+        出勤中
+        @elseif($attendance->status === 2)
+        休憩中
+        @elseif($attendance->status === 3)
+        退勤済
+        @endif
+    </p>
 
-@if(!$attendance)
-<form method="POST" action="/attendance/start">
-    @csrf
-    <button>出勤</button>
-</form>
-@endif
+    {{-- 日付 --}}
+    <p>{{ now()->format('Y年n月j日（D）') }}</p>
 
-@if($attendance && $attendance->status === 0)
-出勤ボタン
-@endif
+    {{-- 時刻 --}}
+    <h1>{{ now()->format('H:i') }}</h1>
 
-@if($attendance->status === 1)
-休憩入ボタン
-退勤ボタン
-@endif
+    {{-- ボタン表示 --}}
+    <div>
 
-@if($attendance->status === 2)
-休憩戻ボタン
-@endif
+        {{-- 勤務外 --}}
+        @if(!$attendance)
+        <form method="POST" action="{{ route('attendance.start') }}">
+            @csrf
+            <button type="submit">出勤</button>
+        </form>
+        @endif
 
-@if($attendance->status === 3)
-お疲れ様でした
-@endif
+        {{-- 出勤中 --}}
+        @if($attendance && $attendance->status === 1)
+        <form method="POST" action="{{ route('attendance.end') }}">
+            @csrf
+            <button type="submit">退勤</button>
+        </form>
 
+        <form method="POST" action="{{ route('break.start') }}">
+            @csrf
+            <button type="submit">休憩入</button>
+        </form>
+        @endif
+
+        {{-- 休憩中 --}}
+        @if($attendance && $attendance->status === 2)
+        <form method="POST" action="{{ route('break.end') }}">
+            @csrf
+            <button type="submit">休憩戻</button>
+        </form>
+        @endif
+
+        {{-- 退勤済 --}}
+        @if($attendance && $attendance->status === 3)
+        <p>お疲れ様でした。</p>
+        @endif
+
+    </div>
+
+</div>
 @endsection

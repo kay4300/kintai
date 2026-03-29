@@ -38,6 +38,8 @@ class AttendanceController extends Controller
     public function startWork()
     {
         // 今日の勤怠を取得
+        $user = auth()->user();
+
         $attendance = Attendance::where('user_id', $user->id)
             ->whereDate('date', today())
             ->first();
@@ -59,7 +61,17 @@ class AttendanceController extends Controller
     // 休憩入り
     public function startBreak()
     {
-        $attendance = '今日の勤怠';
+        $user = auth()->user();
+
+        // 今日の勤怠を取得
+        $attendance = Attendance::where('user_id', $user->id)
+            ->whereDate('date', today())
+            ->first();
+
+        // 勤怠が存在しない場合の保険
+        if (!$attendance) {
+            return back()->with('error', '先に出勤してください');
+        }
 
         BreakTime::create([
             'attendance_id' => $attendance->id,
@@ -74,25 +86,52 @@ class AttendanceController extends Controller
     // 休憩戻り
     public function endBreak()
     {
-        $break = '未終了の休憩';
+        $user = auth()->user();
 
-        $break->update([
-            'end_time' => now()
-        ]);
+        $attendance = Attendance::where('user_id', $user->id)
+            ->whereDate('date', today())
+            ->first();
 
-        $attendance->update(['status' => 1]);
+        $break = BreakTime::where('attendance_id', $attendance->id)
+            ->whereNull('end_time')
+            ->first();
+
+        if ($break) {
+            $break->update([
+                'end_time' => now()
+            ]);
+        }
+
+        if ($attendance) {
+            $attendance->update(['status' => 1]);
+        }
 
         return back();
     }
     // 退勤
     public function endWork()
     {
-        $attendance->update([
-            'end_time' => now(),
-            'status' => 3
-        ]);
+        $user = auth()->user();
+
+        $attendance = Attendance::where('user_id', $user->id)
+            ->whereDate('date', today())
+            ->first();
+
+        if ($attendance) {
+            $attendance->update([
+                'end_time' => now(),
+                'status' => 3
+            ]);
+        }
 
         return back()->with('message', 'お疲れ様でした');
+    }
+
+    public function list()
+    {
+        $attendances = Attendance::where('user_id', auth()->id())->get();
+
+        return view('staff.attendance.index', compact('attendances'));
     }
     //
 }
