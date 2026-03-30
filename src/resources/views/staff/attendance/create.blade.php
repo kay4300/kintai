@@ -17,10 +17,28 @@
     </p>
 
     {{-- 日付 --}}
-    <p>{{ now()->format('Y年n月j日（D）') }}</p>
+    <p>{{ now()->locale('ja')->isoFormat('YYYY年M月D日（ddd）') }}</p>
 
     {{-- 時刻 --}}
-    <h1>{{ now()->format('H:i') }}</h1>
+    <!-- <h1>{{ now()->format('H:i') }}</h1> -->
+    <h1 id="clock"></h1>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+
+            document.getElementById('clock').textContent = hours + ':' + minutes;
+        }
+
+        // 初回実行
+        updateClock();
+
+        // 1秒ごと更新
+        setInterval(updateClock, 1000);
+    </script>
 
     {{-- ボタン表示 --}}
     <div>

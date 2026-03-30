@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
@@ -133,5 +134,7 @@ class AttendanceController extends Controller
 
         return view('staff.attendance.index', compact('attendances'));
     }
+
+    
     //
 }

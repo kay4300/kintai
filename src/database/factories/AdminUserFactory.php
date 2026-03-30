@@ -19,7 +19,7 @@ class AdminUserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => fake('ja_JP')->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => Hash::make('password'),
             //passwordが超重要!!これ忘れるとログインできなくなる

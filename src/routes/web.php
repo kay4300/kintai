@@ -88,29 +88,27 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
-        // ログイン画面
-        Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
+    // ログイン画面
+    Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
 
-        // ログイン処理
-        Route::post('/login', [AdminLoginController::class, 'login']);
+    // ログイン処理
+    Route::post('/login', [AdminLoginController::class, 'login']);
 
-        //ログアウト 
-        Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
+    //ログアウト 
+    Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
 
-        // ログイン後
-        Route::middleware('auth:admin')->group(function () {
+    // ログイン後
+    Route::middleware('auth:admin')->group(function () {
 
-            // ダッシュボード（勤怠一覧）
-            Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        // ダッシュボード（勤怠一覧）
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-            // スタッフ一覧画面
-            Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.index');
-            // 申請一覧画面
-            Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('request.index');
-    });  
-
-            
-    });        
+        // スタッフ一覧画面
+        Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.index');
+        // 申請一覧画面
+        Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('request.index');
+    });
+});
 
 /*
 |--------------------------------------------------------------------------
