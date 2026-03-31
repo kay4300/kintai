@@ -15,6 +15,13 @@ class Attendance extends Model
         'start_time',
         'end_time',
         'status',
+        'note',
+    ];
+
+    protected $casts = [
+        'date' => 'date',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     public function user()
@@ -23,6 +30,11 @@ class Attendance extends Model
     }
 
     public function breakTimes()
+    {
+        return $this->hasMany(BreakTime::class);
+    }
+
+    public function breaks()
     {
         return $this->hasMany(BreakTime::class);
     }

@@ -1,10 +1,23 @@
 @extends('layouts.app')
 
+@section('title', 'kintai')
+
 @section('content')
 <div class="text-center">
 
+    @php
+    $isFinished = $attendance && $attendance->status === 3;
+    @endphp
+
     {{-- ステータス表示 --}}
     <p>
+        <!-- @if(!$attendance || $isFinished)
+        勤務外
+        @elseif($attendance->status === 1)
+        出勤中
+        @elseif($attendance->status === 2)
+        休憩中
+        @endif -->
         @if(!$attendance)
         勤務外
         @elseif($attendance->status === 1)
@@ -43,7 +56,7 @@
     {{-- ボタン表示 --}}
     <div>
 
-        {{-- 勤務外 --}}
+        {{-- 出勤前 --}}
         @if(!$attendance)
         <form method="POST" action="{{ route('attendance.start') }}">
             @csrf
