@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use Carbon\CarbonImmutable;
@@ -250,6 +251,17 @@ class AttendanceController extends Controller
         }
 
         return redirect()->back()->with('message', '更新しました');
+    }
+
+    // ログアウト
+    public function logout(Request $request)
+    {
+        Auth::logout(); // ★ログイン状態を解除
+
+        $request->session()->invalidate(); // ★セッション破棄
+        $request->session()->regenerateToken(); // ★CSRF再生成
+
+        return redirect('/login');
     }
 
     //

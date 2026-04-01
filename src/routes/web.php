@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\RequestController as AdminRequestController;
 use App\Http\Controllers\Staff\RegisterController;
 use App\Http\Controllers\Staff\AttendanceController;
+use App\Http\Controllers\Staff\StampCorrectionRequestController;
 use App\Http\Controllers\Staff\RequestController as StaffRequestController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\User;
@@ -53,10 +54,11 @@ Route::post('/register', [RegisterController::class, 'register']);
 // ->middleware(['auth', 'verified']);
 
 //ログアウト 
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-})->name('logout');
+// Route::post('/logout', function () {
+//     Auth::logout();
+//     return redirect('/login');
+// })->name('logout');
+Route::post('/logout', [AttendanceController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
 
@@ -89,8 +91,12 @@ Route::middleware('auth')->group(function () {
         ->name('staff.attendance.update');
 
     // 申請一覧
-    Route::get('/request/list', [StaffRequestController::class, 'index'])
-        ->name('staff.request.index');
+    // Route::get('/request/list', [StaffRequestController::class, 'index'])
+    //     ->name('staff.request.index');
+    // 申請一覧画面表示
+    Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'index'])
+        ->name('stamp_correction_request.list');    
+        
 });
 
 

@@ -28,7 +28,7 @@
         退勤済
         @endif
     </p>
-
+    
     {{-- 日付 --}}
     <p>{{ now()->locale('ja')->isoFormat('YYYY年M月D日（ddd）') }}</p>
 
@@ -55,17 +55,15 @@
 
     {{-- ボタン表示 --}}
     <div>
-
-        {{-- 出勤前 --}}
         @if(!$attendance)
+        {{-- 出勤前（まだ打刻なし） --}}
         <form method="POST" action="{{ route('attendance.start') }}">
             @csrf
             <button type="submit">出勤</button>
         </form>
-        @endif
 
+        @elseif($attendance->status === 1)
         {{-- 出勤中 --}}
-        @if($attendance && $attendance->status === 1)
         <form method="POST" action="{{ route('attendance.end') }}">
             @csrf
             <button type="submit">退勤</button>
@@ -75,22 +73,19 @@
             @csrf
             <button type="submit">休憩入</button>
         </form>
-        @endif
 
+        @elseif($attendance->status === 2)
         {{-- 休憩中 --}}
-        @if($attendance && $attendance->status === 2)
         <form method="POST" action="{{ route('break.end') }}">
             @csrf
             <button type="submit">休憩戻</button>
         </form>
-        @endif
 
-        {{-- 退勤済 --}}
-        @if($attendance && $attendance->status === 3)
-        <p>お疲れ様でした。</p>
+        @elseif($attendance->status === 3)
+        {{-- 退勤済（＝今日の打刻は終了） --}}
+        <p>お疲れさまでした。</p>
+
         @endif
 
     </div>
-
-</div>
-@endsection
+    @endsection
