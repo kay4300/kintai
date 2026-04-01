@@ -13,17 +13,16 @@ class StampCorrectionRequestController extends Controller
     {
         $status = $request->query('status', 'pending');
 
-    $requests = StampCorrectionRequest::where('user_id', Auth::id())
-        ->when($status === 'pending', function ($query) {
-            $query->where('status', 1);
-        })
-        ->when($status === 'approved', function ($query) {
-            $query->where('status', 2);
-        })
-        ->latest()
-        ->get();
+        $requests = StampCorrectionRequest::where('user_id', Auth::id())
+            ->when($status === 'pending', function ($query) {
+                $query->where('status', 1);
+            })
+            ->when($status === 'approved', function ($query) {
+                $query->where('status', 2);
+            })
+            ->latest()
+            ->get();
 
-    return view('staff.stamp_correction_request.list', compact('requests', 'status'));
-    //
+        return view('staff.application.index', compact('requests', 'status'));
     }
 }

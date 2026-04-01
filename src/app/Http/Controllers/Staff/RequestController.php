@@ -9,7 +9,7 @@ class RequestController extends Controller
 {
     public function index()
     {
-        return view('staff.request.index');
+        // return view('staff.request.index');
         //
     }
 }

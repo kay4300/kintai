@@ -66,7 +66,7 @@
             @php
             $route = Route::currentRouteName();
             @endphp
-            
+
             @if(auth('web')->check())
             <div class="header__nav">
 
@@ -93,7 +93,7 @@
                 @if($route === 'staff.request.index')
                 <span class="header__link active">申請</span>
                 @else
-                <a href="{{ route('staff.request.index') }}" class="header__link">申請</a>
+                <a href="{{ route('stamp_correction_request.list') }}" class="header__link">申請</a>
                 @endif
             </div>
             @endif

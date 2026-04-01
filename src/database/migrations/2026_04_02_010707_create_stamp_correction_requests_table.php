@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('stamp_correction_requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->dateTime('target_date');
+            $table->text('reason');
+            $table->integer('status'); // 1:承認待ち 2:承認済み
             $table->timestamps();
         });
     }
