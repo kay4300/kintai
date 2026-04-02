@@ -5,9 +5,10 @@
 
     <h2>勤怠詳細</h2>
 
-    <form method="POST" action="{{ route('staff.attendance.update', $attendance->id) }}">
+    <form method="POST" action="{{ route('stamp_correction_request.store') }}">
         @csrf
-        @method('PUT')
+        <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
+        <input type="hidden" name="target_date" value="{{ $attendance->date }}">
 
         {{-- 名前 --}}
         <div>
@@ -39,7 +40,7 @@
         </div>
 
         @php
-            $breaks = $attendance->breaks;
+        $breaks = $attendance->breaks;
         @endphp
 
         {{-- 休憩 --}}
@@ -70,17 +71,20 @@
             </div>
         </div>
 
-        {{-- 備考 --}}
+        {{-- 修正理由 --}}
         <div>
-            <div>備考</div>
-            <div>
-                <textarea name="note" rows="3">{{ $attendance->note ?? '' }}</textarea>
-            </div>
+            <div>修正理由</div>
+            <textarea name="reason" rows="3" required></textarea>
         </div>
+
 
         {{-- 修正ボタン --}}
         <div>
+            @if ($isPending)
+            <p>承認待ちのため修正できません</p>
+            @else
             <button type="submit">修正</button>
+            @endif
         </div>
 
     </form>

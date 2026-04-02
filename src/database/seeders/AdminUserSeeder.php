@@ -15,11 +15,13 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         // 固定アカウント（ログイン用）
-        AdminUser::create([
-            'name' => '管理者',
-            'email' => 'admin@test.com',
-            'password' => Hash::make('password'),
-        ]);
+        AdminUser::updateOrCreate(
+            ['email' => 'admin@test.com'],
+            [
+                'name' => '管理者',
+                'password' => bcrypt('password'),
+            ]
+        );
 
         // ダミー5件
         AdminUser::factory()->count(5)->create();

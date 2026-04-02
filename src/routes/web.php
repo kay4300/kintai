@@ -95,7 +95,11 @@ Route::middleware('auth')->group(function () {
     //     ->name('staff.request.index');
     // 申請一覧画面表示
     Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'index'])
-        ->name('stamp_correction_request.list');    
+        ->name('stamp_correction_request.list');
+
+    // 申請保存
+    Route::post('/stamp_correction_request', [StampCorrectionRequestController::class, 'store'])
+        ->name('stamp_correction_request.store');   
         
 });
 

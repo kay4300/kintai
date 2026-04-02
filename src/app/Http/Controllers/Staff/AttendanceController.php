@@ -199,7 +199,13 @@ class AttendanceController extends Controller
             ->where('user_id', auth()->id())
             ->findOrFail($id);
 
-        return view('staff.attendance.detail', compact('attendance'));
+        // 承認待ち中は修正不可にする 
+        $isPending = \App\Models\StampCorrectionRequest::where('user_id', auth()->id())
+            ->whereDate('target_date', $attendance->date)
+            ->where('status', 1)
+            ->exists();    
+
+        return view('staff.attendance.detail', compact('attendance', 'isPending'));
     }
     // 勤怠修正
     public function update(Request $request, $id)

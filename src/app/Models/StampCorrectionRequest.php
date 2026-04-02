@@ -11,6 +11,7 @@ class StampCorrectionRequest extends Model
 
     protected $fillable = [
         'user_id',
+        'attendance_id',
         'target_date',
         'reason',
         'status',

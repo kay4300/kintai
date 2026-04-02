@@ -25,4 +25,24 @@ class StampCorrectionRequestController extends Controller
 
         return view('staff.application.index', compact('requests', 'status'));
     }
+
+    public function store(Request $request)
+    {
+        // バリデーション
+        $request->validate([
+            'target_date' => 'required|date',
+            'reason' => 'required|string|max:255',
+        ]);
+
+        // 保存
+        StampCorrectionRequest::create([
+            'user_id' => Auth::id(),
+            'attendance_id' => $request->attendance_id,
+            'target_date' => $request->target_date,
+            'reason' => $request->reason,
+            'status' => 1, // 承認待ち
+        ]);
+
+        return redirect()->back()->with('message', '修正申請を送信しました');
+    }
 }

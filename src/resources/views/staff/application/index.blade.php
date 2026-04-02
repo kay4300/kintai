@@ -48,7 +48,9 @@
                 {{ $request->reason }}
             </td>
             <td>
-                <a href="#">詳細</a>
+                <a href="{{ route('staff.attendance.detail', $request->attendance_id) }}">
+                    詳細
+                </a>
             </td>
         </tr>
         @endforeach
