@@ -38,4 +38,19 @@ class Attendance extends Model
     {
         return $this->hasMany(BreakTime::class);
     }
+
+    public function getStartTimeFormattedAttribute()
+    {
+        return $this->start_time
+            ? \Carbon\Carbon::parse($this->start_time)->format('H:i')
+            : '';
+    }
+
+    public function getEndTimeFormattedAttribute()
+    {
+        return $this->end_time
+            ? \Carbon\Carbon::parse($this->end_time)->format('H:i')
+            : '';
+    }
+    
 }

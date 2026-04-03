@@ -13,6 +13,7 @@ use App\Http\Controllers\Staff\StampCorrectionRequestController;
 use App\Http\Controllers\Staff\RequestController as StaffRequestController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\User;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 // スタッフ
 // 画面表示
@@ -119,7 +120,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
 
         // ダッシュボード（勤怠一覧）
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])
+            ->name('dashboard');
+
+        //勤怠詳細画面 
+        Route::get('/attendance/{id}', [DashboardController::class, 'show'])
+            ->name('attendance.detail');
 
         // スタッフ一覧画面
         Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.index');
