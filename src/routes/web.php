@@ -84,12 +84,18 @@ Route::middleware('auth')->group(function () {
         ->name('staff.attendance.list');
 
     //勤怠詳細画面表示
-    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail'])
-        ->name('staff.attendance.detail');
+    // Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail'])
+    //     ->name('staff.attendance.detail');
 
     // 勤怠修正
-    Route::put('/attendance/detail/{id}', [AttendanceController::class, 'update'])
+    // Route::put('/attendance/detail/{id}', [AttendanceController::class, 'update'])
+    //     ->name('staff.attendance.update');
+    Route::get('/attendance/{id}', [AttendanceController::class, 'detail'])
+        ->name('staff.attendance.detail');
+
+    Route::put('/attendance/{id}', [AttendanceController::class, 'update'])
         ->name('staff.attendance.update');
+
 
     // 申請一覧
     // Route::get('/request/list', [StaffRequestController::class, 'index'])
@@ -124,12 +130,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
-        //勤怠詳細画面 
+        //勤怠詳細画面表示
         Route::get('/attendance/{id}', [DashboardController::class, 'show'])
             ->name('attendance.detail');
 
+        // 勤怠修正
+        Route::put('/attendance/{id}', [DashboardController::class, 'update'])
+            ->name('attendance.update');
+        
+
         // スタッフ一覧画面
         Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.index');
+        // スタッフ別勤怠画面
+        Route::get('/staff/{id}/attendance', [StaffController::class, 'attendance'])
+            ->name('staff.attendance');
+
         // 申請一覧画面
         Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('request.index');
     });

@@ -40,8 +40,22 @@ class DashboardController extends Controller
     public function show($id)
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
+        // status=2(承認待ち)の場合は編集不可にするためのフラグ
+        $isPending = $attendance->status === 2;
 
-        return view('admin.attendance.detail', compact('attendance'));
+        return view('admin.attendance.detail', compact('attendance', 'isPending'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $attendance = Attendance::findOrFail($id);
+
+        $attendance->update([
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+        ]);
+
+        return back()->with('success', '更新しました');
     }
          //
 }

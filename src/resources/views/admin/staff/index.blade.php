@@ -7,5 +7,25 @@
 @endsection
 
 @section('content')
-<p>スタッフ一覧</p>
+<h1>スタッフ一覧</h1>
+
+<table>
+    <tr>
+        <th>名前</th>
+        <th>メールアドレス</th>
+        <th>月次勤怠</th>
+    </tr>
+
+    @foreach ($staffs as $staff)
+    <tr>
+        <td>{{ $staff->name }}</td>
+        <td>{{ $staff->email }}</td>
+        <td>
+            <a href="{{ route('admin.staff.attendance', $staff->id) }}">
+                詳細
+            </a>
+        </td>
+    </tr>
+    @endforeach
+</table>
 @endsection
