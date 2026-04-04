@@ -4,12 +4,26 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\StampCorrectionRequest;
+use App\Models\User;
 
 class RequestController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.request.index');
+        $status = $request->input('status', 'pending');
+
+        $query = StampCorrectionRequest::with('user');
+
+        if ($status === 'pending') {
+            $query->where('status', 1);
+        } elseif ($status === 'approved') {
+            $query->where('status', 2);
+        }
+
+        $requests = $query->orderBy('created_at', 'desc')->get();
+
+        return view('admin.request.index', compact('requests', 'status'));
     }
     //
 }

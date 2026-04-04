@@ -48,7 +48,7 @@
                 {{ $request->reason }}
             </td>
             <td>
-                <a href="{{ route('staff.attendance.detail', $request->attendance_id) }}">
+                <a href="{{ route('staff.attendance.detail', [$request->attendance_id, $request->id]) }}">
                     詳細
                 </a>
             </td>

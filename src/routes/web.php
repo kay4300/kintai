@@ -83,16 +83,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance/list', [AttendanceController::class, 'list'])
         ->name('staff.attendance.list');
 
-    //勤怠詳細画面表示
-    // Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail'])
-    //     ->name('staff.attendance.detail');
-
-    // 勤怠修正
-    // Route::put('/attendance/detail/{id}', [AttendanceController::class, 'update'])
-    //     ->name('staff.attendance.update');
-    Route::get('/attendance/{id}', [AttendanceController::class, 'detail'])
+    //勤怠詳細画面
+    Route::get('/attendance/{id}/{requestId?}', [AttendanceController::class, 'detail'])
         ->name('staff.attendance.detail');
-
+    // 勤怠修正画面requestIdは申請経由できたものを判別する
     Route::put('/attendance/{id}', [AttendanceController::class, 'update'])
         ->name('staff.attendance.update');
 
@@ -144,9 +138,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // スタッフ別勤怠画面
         Route::get('/staff/{id}/attendance', [StaffController::class, 'attendance'])
             ->name('staff.attendance');
+        // csvダウンロード
+        Route::get('/staff/{id}/attendance/csv', [StaffController::class, 'csv'])
+            ->name('staff.csv');    
 
         // 申請一覧画面
         Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('request.index');
+
+        
     });
 });
 

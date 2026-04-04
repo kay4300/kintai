@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
 use App\Models\BreakTime;
+use App\Models\StampCorrectionRequest;
 use Carbon\CarbonImmutable;
 
 class AttendanceController extends Controller
@@ -193,19 +194,29 @@ class AttendanceController extends Controller
         ));
     }
     // 詳細画面
-    public function detail($id)
+    public function detail($id, $requestId = null)
     {
         $attendance = Attendance::with('breaks')
             ->where('user_id', auth()->id())
             ->findOrFail($id);
 
-        // 承認待ち中は修正不可にする 
-        $isPending = \App\Models\StampCorrectionRequest::where('user_id', auth()->id())
-            ->whereDate('target_date', $attendance->date)
-            ->where('status', 1)
-            ->exists();    
+        $requestData = null;
 
-        return view('staff.attendance.detail', compact('attendance', 'isPending'));
+        // ① 申請経由で来た場合
+        if ($requestId) {
+            $requestData = StampCorrectionRequest::findOrFail($requestId);
+        } else {
+            // 勤怠一覧から来た場合でも申請を探す（←ここが追加ポイント）
+            $requestData = StampCorrectionRequest::where('user_id', auth()->id())
+                ->whereDate('target_date', $attendance->date)
+                ->where('status', 1)
+                ->first();
+        }
+        // 承認待ちかどうか
+        $isPending = $requestData ? $requestData->status === 1 : false;
+
+        return view('staff.attendance.detail', compact('attendance', 'isPending', 'requestData'));
+        
     }
     // 勤怠修正
     public function update(Request $request, $id)
@@ -269,6 +280,5 @@ class AttendanceController extends Controller
 
         return redirect('/login');
     }
-
     //
 }
