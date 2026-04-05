@@ -16,9 +16,9 @@ class RequestController extends Controller
         $query = StampCorrectionRequest::with('user');
 
         if ($status === 'pending') {
-            $query->where('status', 1);
+            $query->where('status', 0);
         } elseif ($status === 'approved') {
-            $query->where('status', 2);
+            $query->where('status', 1);
         }
 
         $requests = $query->orderBy('created_at', 'desc')->get();

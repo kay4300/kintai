@@ -52,5 +52,10 @@ class Attendance extends Model
             ? \Carbon\Carbon::parse($this->end_time)->format('H:i')
             : '';
     }
+
+    public function request()
+    {
+        return $this->hasOne(StampCorrectionRequest::class);
+    }
     
 }

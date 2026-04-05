@@ -20,7 +20,7 @@
 
         <div class="mx-3 d-flex align-items-center">
             <span class="me-2">📅</span>
-            <strong>{{ $currentMonth }}</strong>
+            <strong>{{ $currentDate }}</strong>
         </div>
 
         <a href="{{ route('admin.dashboard', ['date' => $nextDate]) }}" class="btn btn-light">

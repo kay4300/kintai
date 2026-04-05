@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\RequestController as AdminRequestController;
 use App\Http\Controllers\Staff\RegisterController;
 use App\Http\Controllers\Staff\AttendanceController;
 use App\Http\Controllers\Staff\StampCorrectionRequestController;
+use App\Http\Controllers\Admin\RequestController;
 use App\Http\Controllers\Staff\RequestController as StaffRequestController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\User;
@@ -132,18 +133,30 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/attendance/{id}', [DashboardController::class, 'update'])
             ->name('attendance.update');
         
-
         // スタッフ一覧画面
         Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.index');
+
         // スタッフ別勤怠画面
         Route::get('/staff/{id}/attendance', [StaffController::class, 'attendance'])
             ->name('staff.attendance');
+
         // csvダウンロード
         Route::get('/staff/{id}/attendance/csv', [StaffController::class, 'csv'])
             ->name('staff.csv');    
 
+        
+        // 申請承認
+        Route::get('/stamp_correction_request/approve/{id}',[DashboardController::class, 'approve'])
+            ->name('stamp_correction_request.approve');
+
         // 申請一覧画面
-        Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'index'])->name('request.index');
+        Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])
+            ->name('request.index');
+         //承認済み 
+        Route::post(
+            '/stamp_correction_request/approve/{id}',
+            [DashboardController::class, 'approveUpdate'])
+            ->name('stamp_correction_request.approve.update');
 
         
     });

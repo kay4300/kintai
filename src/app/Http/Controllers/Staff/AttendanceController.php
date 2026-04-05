@@ -216,7 +216,6 @@ class AttendanceController extends Controller
         $isPending = $requestData ? $requestData->status === 1 : false;
 
         return view('staff.attendance.detail', compact('attendance', 'isPending', 'requestData'));
-        
     }
     // 勤怠修正
     public function update(Request $request, $id)

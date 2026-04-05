@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\StampCorrectionRequest;
 
 class DashboardController extends Controller
 {
@@ -40,10 +41,14 @@ class DashboardController extends Controller
     public function show($id)
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
-        // status=2(承認待ち)の場合は編集不可にするためのフラグ
-        $isPending = $attendance->status === 2;
+        
+        // 修正申請があるかどうか
+        $requestData = $attendance->request ?? null;
 
-        return view('admin.attendance.detail', compact('attendance', 'isPending'));
+        // 申請があれば編集不可
+        $isPending = !is_null($requestData);
+
+        return view('admin.attendance.detail', compact('attendance', 'isPending', 'requestData'));
     }
 
     public function update(Request $request, $id)
@@ -56,6 +61,47 @@ class DashboardController extends Controller
         ]);
 
         return back()->with('success', '更新しました');
+    }
+
+    public function approve($id)
+    {
+        $requestData = StampCorrectionRequest::with('attendance.user', 'attendance.breakTimes')
+            ->findOrFail($id);
+
+        $attendance = $requestData->attendance;
+
+        $isPending = true;
+
+        $isApproveMode = true;
+
+        return view('shared.attendance_detail', compact(
+            'attendance',
+            'requestData',
+            'isApproveMode'
+        ));
+    }
+
+    public function approveUpdate($id)
+    {
+        $requestData = StampCorrectionRequest::with('attendance')->findOrFail($id);
+
+        // すでに承認済みなら何もしない
+        if ($requestData->status == 1) {
+            return back();
+        }
+
+        $attendance = $requestData->attendance;
+
+        // 勤怠に反映
+        $attendance->start_time = $requestData->start_time;
+        $attendance->end_time   = $requestData->end_time;
+        $attendance->save();
+
+        // 承認済みに変更
+        $requestData->status = 1;
+        $requestData->save();
+
+        return back();
     }
          //
 }

@@ -6,12 +6,12 @@
     <h2>申請一覧</h2>
 
     {{-- タブ --}}
-    <a href="{{ route('stamp_correction_request.list', ['status' => 'pending']) }}"
+    <a href="{{ route('admin.request.index', ['status' => 'pending']) }}"
         class="tab {{ $status === 'pending' ? 'active' : '' }}">
         承認待ち
     </a>
 
-    <a href="{{ route('stamp_correction_request.list', ['status' => 'approved']) }}"
+    <a href="{{ route('admin.request.index', ['status' => 'approved']) }}"
         class="tab {{ $status === 'approved' ? 'active' : '' }}">
         承認済み
     </a>
@@ -33,7 +33,7 @@
         @foreach($requests as $request)
         <tr>
             <td>
-                {{ $request->status === 1 ? '承認待ち' : '承認済み' }}
+                {{ $request->status === 0 ? '承認待ち' : '承認済み' }}
             </td>
             <td>
                 {{ $request->user->name ?? '' }}
@@ -48,7 +48,7 @@
                 {{ $request->reason }}
             </td>
             <td>
-                <a href="{{ route('admin.attendance.detail', $request->attendance_id) }}">
+                <a href="{{ route('admin.stamp_correction_request.approve', $request->id) }}">
                     詳細
                 </a>
             </td>
