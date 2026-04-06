@@ -14,35 +14,25 @@ class StampCorrectionRequestSeeder extends Seeder
      */
     public function run(): void
     {
-        $attendance = Attendance::first();
+        // ランダムに5件だけ取得
+        $attendances = Attendance::inRandomOrder()->take(5)->get();
 
-        if (!$attendance) {
+        if ($attendances->isEmpty()) {
             return;
         }
 
-        StampCorrectionRequest::create([
-            'user_id' => 1,
-            'attendance_id' => $attendance->id,
-            'target_date' => now(),
-            'reason' => '打刻修正のため',
-            'status' => 1,
-        ]);
+        foreach ($attendances as $index => $attendance) {
 
-        StampCorrectionRequest::create([
-            'user_id' => 1,
-            'attendance_id' => $attendance->id,
-            'target_date' => now()->subDay(),
-            'reason' => '退勤漏れ',
-            'status' => 2,
-        ]);
-
-        StampCorrectionRequest::create([
-            'user_id' => 1,
-            'attendance_id' => $attendance->id,
-            'target_date' => now()->subDays(2),
-            'reason' => '休憩時間の修正',
-            'status' => 1,
-        ]);
+            StampCorrectionRequest::create([
+                'user_id' => $attendance->user_id,
+                'attendance_id' => $attendance->id,
+                'start_time' => $attendance->start_time,
+                'end_time' => $attendance->end_time,
+                'target_date' => $attendance->date,
+                'reason' => '打刻間違い' . $index,
+                'status' => rand(0, 1), // 0:承認待ち / 1:承認済み
+            ]);
+        }
     }
     //
 

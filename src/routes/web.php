@@ -142,16 +142,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // csvダウンロード
         Route::get('/staff/{id}/attendance/csv', [StaffController::class, 'csv'])
-            ->name('staff.csv');    
-
-        
-        // 申請承認
-        Route::get('/stamp_correction_request/approve/{id}',[DashboardController::class, 'approve'])
-            ->name('stamp_correction_request.approve');
+            ->name('staff.csv');
 
         // 申請一覧画面
         Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])
             ->name('request.index');
+
+        // 申請承認
+        Route::get('/stamp_correction_request/approve/{id}',[DashboardController::class, 'approve'])
+            ->name('stamp_correction_request.approve');
+
          //承認済み 
         Route::post(
             '/stamp_correction_request/approve/{id}',

@@ -84,24 +84,30 @@ class DashboardController extends Controller
     public function approveUpdate($id)
     {
         $requestData = StampCorrectionRequest::with('attendance')->findOrFail($id);
-
+    
         // すでに承認済みなら何もしない
         if ($requestData->status == 1) {
             return back();
         }
 
         $attendance = $requestData->attendance;
-
+        
         // 勤怠に反映
-        $attendance->start_time = $requestData->start_time;
-        $attendance->end_time   = $requestData->end_time;
+        if ($requestData->start_time) {
+            $attendance->start_time = $requestData->start_time;
+        }
+
+        if ($requestData->end_time) {
+            $attendance->end_time = $requestData->end_time;
+        }
+        
         $attendance->save();
 
         // 承認済みに変更
         $requestData->status = 1;
         $requestData->save();
 
-        return back();
+        return redirect()->route('admin.stamp_correction_request.approve', $id);
     }
          //
 }

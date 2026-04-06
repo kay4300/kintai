@@ -16,12 +16,9 @@ class BreakTimeFactory extends Factory
      */
     public function definition(): array
     {
-        $start = fake()->dateTimeBetween('-1 month', 'now');
-        $end = (clone $start)->modify('+1 hour');
-
         return [
-            'start_time' => $start,
-            'end_time' => $end,
+            'start_time' => now(),
+            'end_time' => now(),
         ];
             //
 

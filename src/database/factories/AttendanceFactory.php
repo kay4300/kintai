@@ -16,14 +16,10 @@ class AttendanceFactory extends Factory
      */
     public function definition(): array
     {
-        static $day = 0;
-
-        $date = now()->subDays($day++);
-
         return [
-            'date' => $date->format('Y-m-d'),
-            'start_time' => $date->format('Y-m-d 09:00:00'),
-            'end_time' => $date->format('Y-m-d 18:00:00'),
+            'date' => now(),
+            'start_time' => now()->setTime(9, 0),
+            'end_time' => now()->setTime(18, 0),
         ];
             //
         

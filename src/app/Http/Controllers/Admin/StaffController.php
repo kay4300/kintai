@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\User;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -18,6 +19,7 @@ class StaffController extends Controller
 
         return view('admin.staff.index', compact('staffs'));
 }
+
     // スタッフ別勤怠画面
     public function attendance(Request $request, $id)
     {
@@ -26,15 +28,35 @@ class StaffController extends Controller
         // 月指定（なければ今月）
         $month = $request->input('month', now()->format('Y-m'));
 
-        $start = Carbon::parse($month)->startOfMonth();
-        $end = Carbon::parse($month)->endOfMonth();
-
+        $currentMonth = Carbon::createFromFormat('Y-m', $month);
+        
+        $start = $currentMonth->copy()->startOfMonth();
+        $end = $currentMonth->copy()->endOfMonth();
+        
+        // 👇 日付で取り出しやすくする
         $attendances = Attendance::with('breaks')
             ->where('user_id', $id)
             ->whereBetween('date', [$start, $end])
-            ->get();
+            ->get()
+            ->keyBy(function ($item) {
+                return \Carbon\Carbon::parse($item->date)->format('Y-m-d');
+            });
 
-        return view('admin.staff.attendance', compact('staff', 'attendances', 'month'));
+        // 👇 日付リスト（これが休み表示のカギ）
+        $period = CarbonPeriod::create($start, $end);
+
+        // 👇 前月・翌月
+        $prevMonth = $currentMonth->copy()->subMonth()->format('Y-m');
+        $nextMonth = $currentMonth->copy()->addMonth()->format('Y-m');
+
+        return view('admin.staff.attendance', compact(
+            'staff',
+            'attendances',
+            'period',
+            'currentMonth',
+            'prevMonth',
+            'nextMonth'
+        ));
     }
 
     // csvダウンロード

@@ -14,14 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()
-            ->count(5)
-            ->has(
-                Attendance::factory()
-                    ->count(10)
-                    ->hasBreakTimes(2)
-            )
-            ->create();
+        User::factory()->count(5)->create();
         //
     }
 }

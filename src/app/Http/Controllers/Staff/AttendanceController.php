@@ -171,7 +171,13 @@ class AttendanceController extends Controller
             $attendance = $attendances[$key] ?? null;
 
             // 休憩合計（分）
-            $totalBreak = $attendance ? $attendance->breaks->sum('duration') : 0;
+            $totalBreak = $attendance
+                ? $attendance->breakTimes->sum(function ($break) {
+                    return \Carbon\Carbon::parse($break->end_time)
+                        ->diffInMinutes(\Carbon\Carbon::parse($break->start_time));
+                })
+                : 0;
+            // $totalBreak = $attendance ? $attendance->breaks->sum('duration') : 0;
 
             // 実働時間（分）
             $workMinutes = $attendance

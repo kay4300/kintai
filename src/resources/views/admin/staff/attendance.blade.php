@@ -10,23 +10,20 @@
 
 <h2>{{ $staff->name }} さんの勤怠一覧</h2>
 
-@php
-$current = \Carbon\Carbon::parse($month);
-@endphp
 
 <div>
-    <a href="{{ route('admin.staff.attendance', ['id' => $staff->id, 'month' => $current->copy()->subMonth()->format('Y-m')]) }}">
-        ←前月
+    <a href="{{ route('admin.staff.attendance', ['id' => $staff->id, 'month' => $prevMonth]) }}">
+        ← 前月
     </a>
 
-    <span>
-        📅 {{ $current->format('Y年n月') }}
-    </span>
+    <span>{{ $currentMonth->format('Y年n月') }}</span>
 
-    <a href="{{ route('admin.staff.attendance', ['id' => $staff->id, 'month' => $current->copy()->addMonth()->format('Y-m')]) }}">
-        翌月→
+    <a href="{{ route('admin.staff.attendance', ['id' => $staff->id, 'month' => $nextMonth]) }}">
+        翌月 →
     </a>
+</div>
 
+<div>
     <table>
         <tr>
             <th>日付</th>
@@ -37,27 +34,38 @@ $current = \Carbon\Carbon::parse($month);
             <th>詳細</th>
         </tr>
 
-        @foreach ($attendances as $attendance)
+        @foreach ($period as $day)
         @php
+        $date = $day->format('Y-m-d');
+        $attendance = $attendances[$date] ?? null;
+
+        $breakTotal = 0;
+        $workMinutes = 0;
+
+        if ($attendance) {
         $breakTotal = $attendance->breaks->sum(function ($break) {
         return \Carbon\Carbon::parse($break->end_time)
         ->diffInMinutes(\Carbon\Carbon::parse($break->start_time));
         });
 
-        $workMinutes = 0;
         if ($attendance->start_time && $attendance->end_time) {
         $workMinutes = \Carbon\Carbon::parse($attendance->end_time)
         ->diffInMinutes(\Carbon\Carbon::parse($attendance->start_time)) - $breakTotal;
         }
+        }
         @endphp
 
         <tr>
-            <td>{{ $attendance->date }}</td>
-            <td>{{ $attendance->start_time }}</td>
-            <td>{{ $attendance->end_time }}</td>
+            <td>{{ $date }}</td>
 
+            @php
+            $isFuture = \Carbon\Carbon::parse($date)->isFuture();
+            @endphp
+
+            @if ($attendance)
+            <td>{{ \Carbon\Carbon::parse($attendance->start_time)->format('H:i') }}</td>
+            <td>{{ \Carbon\Carbon::parse($attendance->end_time)->format('H:i') }}</td>
             <td>{{ floor($breakTotal / 60) }}時間{{ $breakTotal % 60 }}分</td>
-
             <td>{{ floor($workMinutes / 60) }}時間{{ $workMinutes % 60 }}分</td>
 
             <td>
@@ -65,13 +73,22 @@ $current = \Carbon\Carbon::parse($month);
                     <button>詳細</button>
                 </a>
             </td>
+
+            <!-- 通常表示 -->
+            @elseif ($isFuture)
+            <td colspan="4"></td>
+            <td></td>
+            @else
+            <td colspan="4">休み</td>
+            <td>-</td>
+            @endif
         </tr>
         @endforeach
     </table>
 </div>
 
 <div style="text-align: right; margin-top: 20px;">
-    <a href="{{ route('admin.staff.csv', ['id' => $staff->id, 'month' => $month]) }}">
+    <a href="{{ route('admin.staff.csv', ['id' => $staff->id, 'month' => $currentMonth->format('Y-m')]) }}">
         <button>CSV出力</button>
     </a>
 </div>
