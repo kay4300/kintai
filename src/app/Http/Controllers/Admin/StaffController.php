@@ -113,16 +113,19 @@ class StaffController extends Controller
                 }
 
                 fputcsv($handle, mb_convert_encoding([
-                    $attendance->date ?? '',
-                    $start ?? '',
-                    $end ?? '',
+                    $attendance->date ? \Carbon\Carbon::parse($attendance->date)->format('Y-m-d') : '',
+                    $start ? \Carbon\Carbon::parse($start)->format('H:i') : '',
+                    $end ? \Carbon\Carbon::parse($end)->format('H:i') : '',
                     gmdate('H:i', $breakTime * 60),
                     gmdate('H:i', $workMinutes * 60),
                 ], 'SJIS-win', 'UTF-8'));
             }
 
             fclose($handle);
-        }, $staff->name . '_' . $month . '_attendance.csv');
+        },
+            $staff->name . '_' . $month . '_attendance.csv',
+            [
+                'Content-Type' => 'text/csv',]);
     }
     //
 }

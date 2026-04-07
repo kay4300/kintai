@@ -33,7 +33,7 @@
         @foreach($requests as $request)
         <tr>
             <td>
-                {{ $request->status === 1 ? '承認待ち' : '承認済み' }}
+                {{ $request->status === 0 ? '承認待ち' : '承認済み' }}
             </td>
             <td>
                 {{ $request->user->name ?? '' }}

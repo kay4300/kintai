@@ -15,10 +15,10 @@ class StampCorrectionRequestController extends Controller
 
         $requests = StampCorrectionRequest::where('user_id', Auth::id())
             ->when($status === 'pending', function ($query) {
-                $query->where('status', 1);
+                $query->where('status', 0);
             })
             ->when($status === 'approved', function ($query) {
-                $query->where('status', 2);
+                $query->where('status', 1);
             })
             ->latest()
             ->get();
@@ -40,9 +40,11 @@ class StampCorrectionRequestController extends Controller
             'attendance_id' => $request->attendance_id,
             'target_date' => $request->target_date,
             'reason' => $request->reason,
-            'status' => 1, // 承認待ち
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'status' => 0, // 承認待ち
         ]);
-
+    
         return redirect()->back()->with('message', '修正申請を送信しました');
     }
 }

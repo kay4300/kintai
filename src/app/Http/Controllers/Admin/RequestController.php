@@ -12,7 +12,7 @@ class RequestController extends Controller
     public function index(Request $request)
     {
         $status = $request->input('status', 'pending');
-
+        
         $query = StampCorrectionRequest::with('user');
 
         if ($status === 'pending') {
@@ -22,7 +22,7 @@ class RequestController extends Controller
         }
 
         $requests = $query->orderBy('created_at', 'desc')->get();
-
+    
         return view('admin.request.index', compact('requests', 'status'));
     }
     //

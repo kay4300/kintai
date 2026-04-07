@@ -15,7 +15,7 @@
         class="tab {{ $status === 'approved' ? 'active' : '' }}">
         承認済み
     </a>
-</div>
+
 
 {{-- 一覧テーブル --}}
 <table>
@@ -30,6 +30,7 @@
         </tr>
     </thead>
     <tbody>
+
         @foreach($requests as $request)
         <tr>
             <td>
@@ -39,9 +40,11 @@
                 {{ $request->user->name ?? '' }}
             </td>
             <td>
+                <!-- {{ \Carbon\Carbon::parse($request->target_date)->format('Y/m/d') }} -->
                 {{ \Carbon\Carbon::parse($request->target_date)->format('Y/m/d H:i') }}
             </td>
             <td>
+                <!-- {{ $request->created_at->format('Y/m/d H:i') }} -->
                 {{ $request->created_at->format('Y/m/d H:i') }}
             </td>
             <td>
@@ -56,7 +59,5 @@
         @endforeach
     </tbody>
 </table>
-
-
 </div>
 @endsection
