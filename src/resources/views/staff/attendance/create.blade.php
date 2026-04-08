@@ -2,6 +2,11 @@
 
 @section('title', 'kintai')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/shared/app.css') }}">
+<link rel="stylesheet" href="{{ asset('css/staff/create.css') }}">
+@endsection
+
 @section('content')
 <div class="text-center">
 
@@ -28,7 +33,7 @@
         退勤済
         @endif
     </p>
-    
+
     {{-- 日付 --}}
     <p>{{ now()->locale('ja')->isoFormat('YYYY年M月D日（ddd）') }}</p>
 

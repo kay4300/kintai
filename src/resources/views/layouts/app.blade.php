@@ -33,11 +33,6 @@
             @if(auth('admin')->check())
             <div class="header__nav">
 
-                <form action="{{ route('admin.logout') }}" method="POST">
-                    @csrf
-                    <button type="submit">ログアウト</button>
-                </form>
-
                 {{-- 勤怠一覧 --}}
                 @if($route === 'admin.dashboard')
                 <span class="header__link active">勤怠一覧</span>
@@ -59,6 +54,11 @@
                 <a href="{{ route('admin.request.index') }}" class="header__link">申請一覧</a>
                 @endif
 
+                <form action="{{ route('admin.logout') }}" method="POST">
+                    @csrf
+                    <button type="submit">ログアウト</button>
+                </form>
+
             </div>
             @endif
 
@@ -70,10 +70,6 @@
             @if(auth('web')->check())
             <div class="header__nav">
 
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit">ログアウト</button>
-                </form>
 
                 {{-- 勤怠 --}}
                 @if($route === 'staff.attendance.index')
@@ -95,6 +91,12 @@
                 @else
                 <a href="{{ route('stamp_correction_request.list') }}" class="header__link">申請</a>
                 @endif
+
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit">ログアウト</button>
+                </form>
+
             </div>
             @endif
             @endif

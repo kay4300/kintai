@@ -2,6 +2,11 @@
 
 @section('title', 'kintai')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/shared/app.css') }}">
+<link rel="stylesheet" href="{{ asset('css/staff/index.css') }}">
+@endsection
+
 @section('content')
 
 <h1>勤怠一覧</h1>

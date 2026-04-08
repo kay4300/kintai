@@ -1,0 +1,93 @@
+/* ===============================
+   ヘッダー（基本）
+================================ */
+.header {
+    width: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+}
+
+.header__inner {
+    width: 100%;
+    max-width: 1512px;
+    height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 25px;
+    box-sizing: border-box;
+}
+
+/* ロゴ */
+.header__logo {
+    position: absolute;
+    top: 22px;
+    left: 25px;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ナビ */
+.header__nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* リンク・ボタン */
+.header__nav a,
+.header__nav button {
+    color: #fff;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* アクティブ */
+.header__link.active {
+    font-weight: bold;
+    border-bottom: 2px solid #fff;
+}
+
+/* ホバー */
+.header__nav a:hover,
+.header__nav button:hover {
+    opacity: 0.7;
+}
+
+/* ===============================
+   レスポンシブ（まとめ）
+================================ */
+
+/* 1540px以下 */
+@media screen and (max-width: 1540px) {
+    .header__inner {
+        padding: 0 20px;
+    }
+
+    .header__nav {
+        gap: 16px;
+    }
+}
+
+/* 1400px以下 */
+@media screen and (max-width: 1400px) {
+    .header__inner {
+        padding: 0 15px;
+    }
+
+    .header__nav {
+        gap: 12px;
+    }
+
+    .header__nav a,
+    .header__nav button {
+        font-size: 14px;
+    }
+}

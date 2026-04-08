@@ -1,0 +1,103 @@
+/* ===== 全体レイアウト ===== */
+.register-form__content {
+    width: 100%;
+    max-width: 680px;
+    margin: 100px auto 0;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* ===== タイトル ===== */
+.register-form__heading {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.register-form__heading h1 {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* ===== フォーム全体 ===== */
+.form {
+    width: 100%;
+}
+
+/* ===== フォームグループ ===== */
+.form__group {
+    margin-bottom: 30px;
+}
+
+/* ラベル */
+.form__group-title {
+    margin-bottom: 8px;
+}
+
+.form__label--item {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* 入力欄 */
+.form__input--text input {
+    width: 100%;
+    height: 45px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* エラーメッセージ */
+.form__error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* ===== ボタンエリア ===== */
+.form__button {
+    margin-top: 40px;
+    text-align: center;
+}
+
+/* 送信ボタン・リンク共通 */
+.form__button-submit {
+    display: inline-block;
+    width: 100%;
+    max-width: 300px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+/* ホバー */
+.form__button-submit:hover {
+    background-color: #333;
+}
+
+/* ===== レスポンシブ ===== */
+@media screen and (max-width: 768px) {
+    .register-form__heading h1 {
+        font-size: 26px;
+    }
+
+    .form__input--text input {
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .form__button-submit {
+        height: 45px;
+        line-height: 45px;
+        font-size: 16px;
+    }
+}

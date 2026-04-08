@@ -1,0 +1,103 @@
+/* ===== 認証ページ全体 ===== */
+.verify {
+    width: 100%;
+    max-width: 720px;
+    margin: 100px auto 0;
+    text-align: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* 認証メッセージ */
+.verify p {
+    width: 100%;
+    max-width: 720px;
+    height: 58px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0;
+    text-align: center;
+    opacity: 1;
+    margin: 20px auto;
+}
+
+/* 認証ボタン */
+.verify__button-wrapper .btn {
+    display: inline-block;
+    width: 100%;
+    max-width: 250px;
+    height: 50px;
+    line-height: 50px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    text-align: center;
+    color: black;
+    background-color: gray;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 1;
+    margin-top: 30px;
+}
+
+/* 再送ボタン */
+.verify__resend {
+    margin-top: 40px;
+}
+
+.verify__resend-link {
+    display: inline-block;
+    width: 100%;
+    max-width: 257px;
+    height: 53px;
+    line-height: 53px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+    color: #0073ff;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 1;
+}
+
+/* ===== レスポンシブ ===== */
+@media screen and (max-width: 1540px) {
+    .verify {
+        padding: 0 15px;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .verify p {
+        font-size: 22px;
+        height: auto;
+        line-height: 1.2;
+    }
+
+    .verify__button-wrapper .btn,
+    .verify__resend-link {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .verify p {
+        font-size: 20px;
+    }
+
+    .verify__button-wrapper .btn,
+    .verify__resend-link {
+        width: 100%;
+        font-size: 18px;
+        height: 45px;
+        line-height: 45px;
+    }
+}

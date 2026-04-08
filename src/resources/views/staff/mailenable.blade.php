@@ -17,7 +17,7 @@
 
     <div class="verify__button-wrapper">
         <!-- 認証済みフォーム送信 -->
-        <a href="http://localhost:8025" target="_blank">
+        <a href="http://localhost:8025" target="_blank" class="verify__button">
             認証はこちらから
         </a>
     </div>
