@@ -1,9 +1,16 @@
 @extends('layouts.app')
 
+@section('title', 'kintai')
+
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/shared/app.css') }}">
+<link rel="stylesheet" href="{{ asset('css/staff/application.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
 
-    <h2>申請一覧</h2>
+    <h1>申請一覧</h1>
 
     {{-- タブ --}}
     <a href="{{ route('stamp_correction_request.list', ['status' => 'pending']) }}"
@@ -39,10 +46,10 @@
                 {{ $request->user->name ?? '' }}
             </td>
             <td>
-                {{ \Carbon\Carbon::parse($request->target_date)->format('Y/m/d H:i') }}
+                {{ \Carbon\Carbon::parse($request->target_date)->format('Y/m/d') }}
             </td>
             <td>
-                {{ $request->created_at->format('Y/m/d H:i') }}
+                {{ $request->created_at->format('Y/m/d') }}
             </td>
             <td>
                 {{ $request->reason }}

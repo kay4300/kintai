@@ -51,6 +51,8 @@
 
         <div class="form__button">
             <button class="form__button-submit" type="submit">ログインする</button>
+        </div>
+        <div class="form__button">    
             <a href="{{ route('register') }}" class="form__button-submit">
                 会員登録はこちら
             </a>

@@ -9,16 +9,15 @@
 
 @section('content')
 
-<h1>勤怠一覧</h1>
-<div class="container">
-
+<div class="attendance-container">
+    <h1 class="page-title">勤怠一覧</h1>
     <!-- 月ナビゲーション -->
-    <div class="d-flex justify-content-center align-items-center mb-4">
+    <div class="month-nav">
         <a href="{{ route('staff.attendance.list', ['month' => $prevMonth]) }}" class="btn btn-light">
             ← 前月
         </a>
 
-        <div class="mx-3 d-flex align-items-center">
+        <div class="month-current">
             <span class="me-2">📅</span>
             <strong>{{ $currentMonth }}</strong>
         </div>
@@ -29,7 +28,7 @@
     </div>
 
     <!-- 勤怠一覧 -->
-    <table class="table table-bordered text-center">
+    <table class="attendance-table">
         <thead>
             <tr>
                 <th>日付</th>

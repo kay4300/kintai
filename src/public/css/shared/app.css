@@ -39,6 +39,10 @@
 }
 
 /* リンク・ボタン */
+.header__link {
+    color: #fff;
+    text-decoration: none;
+}
 .header__nav a,
 .header__nav button {
     color: #fff;

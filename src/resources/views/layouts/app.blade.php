@@ -86,7 +86,7 @@
                 @endif
 
                 {{-- 申請 --}}
-                @if($route === 'staff.request.index')
+                @if($route === 'stamp_correction_request.list')
                 <span class="header__link active">申請</span>
                 @else
                 <a href="{{ route('stamp_correction_request.list') }}" class="header__link">申請</a>
