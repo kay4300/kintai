@@ -3,7 +3,8 @@
 @section('title', 'kintai')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/admin/staffindex.css') }}">
+<link rel="stylesheet" href="{{ asset('css/shared/app.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/attendance.css') }}">
 @endsection
 
 @section('content')

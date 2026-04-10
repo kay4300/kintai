@@ -3,8 +3,9 @@
 @section('title', 'kintai')
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('css/shared/app.css') }}">
 <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
-@yield('css')
+
 @endsection
 
 @section('content')
