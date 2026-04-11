@@ -4,7 +4,7 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/shared/app.css') }}">
-<link rel="stylesheet" href="{{ asset('css/admin/attendance.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/index.css') }}">
 @endsection
 
 @section('content')
@@ -26,8 +26,9 @@
         </a>
     </div>
 
-    <div class="attendance-table">
-        <table>
+
+    <table class="attendance-table">
+        <thead>
             <tr>
                 <th>日付</th>
                 <th>出勤</th>
@@ -36,7 +37,9 @@
                 <th>合計</th>
                 <th>詳細</th>
             </tr>
+        </thead>
 
+        <tbody>
             @foreach ($period as $day)
             @php
             $date = $day->format('Y-m-d');
@@ -73,7 +76,7 @@
 
                 <td>
                     <a href="{{ route('admin.attendance.detail', $attendance->id) }}">
-                        <button>詳細</button>
+                        詳細
                     </a>
                 </td>
 
@@ -87,12 +90,13 @@
                 @endif
             </tr>
             @endforeach
-        </table>
-    </div>
+        </tbody>
+    </table>
+
 
     <div style="text-align: right; margin-top: 20px;">
-        <a href="{{ route('admin.staff.csv', ['id' => $staff->id, 'month' => $currentMonth->format('Y-m')]) }}">
-            <button>CSV出力</button>
+        <a href="{{ route('admin.staff.csv', ['id' => $staff->id, 'month' => $currentMonth->format('Y-m')]) }}" class="form__button-submit">
+            CSV出力
         </a>
     </div>
 </div>

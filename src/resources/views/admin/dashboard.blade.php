@@ -4,35 +4,33 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/shared/app.css') }}">
-<link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/index.css') }}">
 
 @endsection
 
 @section('content')
 
-<h1>{{ $currentDate }}の勤怠</h1>
-<div class="container">
+<div class="attendance-container">
+
+    <h1 class="page-title">{{ $currentDate }}の勤怠</h1>
 
     <!-- 月ナビゲーション -->
-    <div class="d-flex justify-content-center align-items-center mb-4">
-        <a href="{{ route('admin.dashboard', ['date' => $prevDate]) }}">
+    <div class="month-nav">
+        <a href="{{ route('admin.dashboard', ['date' => $prevDate]) }}" class="nav-btn">
             ← 前日
         </a>
 
-        <div class="mx-3 d-flex align-items-center">
-            <span class="me-2">📅</span>
+        <div class="month-current">
+            <span>📅</span>
             <strong>{{ $currentDate }}</strong>
         </div>
 
-        <a href="{{ route('admin.dashboard', ['date' => $nextDate]) }}" class="btn btn-light">
+        <a href="{{ route('admin.dashboard', ['date' => $nextDate]) }}" class="nav-btn">
             翌日 →
         </a>
     </div>
-</div>
 
-<div class="container">
-
-    <table>
+    <table class="attendance-table">
         <thead>
             <tr>
                 <th>名前</th>

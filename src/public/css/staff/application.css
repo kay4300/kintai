@@ -121,3 +121,38 @@ td a:hover {
 tbody tr:hover {
     background: #f5f5f5;
 }
+
+/* ===============================
+   PCレスポンシブ（1400〜1540px）
+================================ */
+@media screen and (max-width: 1540px) {
+
+    .attendance-container,
+    .container {
+        width: 90%;
+        max-width: 1100px;
+    }
+}
+
+/* 少し狭くなったときの微調整 */
+@media screen and (max-width: 1400px) {
+
+    .attendance-container,
+    .container {
+        width: 95%;
+    }
+
+    /* テーブル文字少し縮小 */
+    .attendance-table th,
+    .attendance-table td,
+    .staff-table th,
+    .staff-table td {
+        font-size: 14px;
+    }
+
+    /* タイトル少し縮小 */
+    .page-title,
+    .container h1 {
+        font-size: 26px;
+    }
+}

@@ -48,11 +48,11 @@
                 </td>
                 <td>
                     <!-- {{ \Carbon\Carbon::parse($request->target_date)->format('Y/m/d') }} -->
-                    {{ \Carbon\Carbon::parse($request->target_date)->format('Y/m/d H:i') }}
+                    {{ \Carbon\Carbon::parse($request->target_date)->format('Y/m/d') }}
                 </td>
                 <td>
                     <!-- {{ $request->created_at->format('Y/m/d H:i') }} -->
-                    {{ $request->created_at->format('Y/m/d H:i') }}
+                    {{ $request->created_at->format('Y/m/d') }}
                 </td>
                 <td>
                     {{ $request->reason }}
