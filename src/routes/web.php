@@ -16,18 +16,6 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\User;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
-// スタッフ
-// 画面表示
-// Route::get('/login', function () {
-//     return view('staff.login');
-// })->name('login');
-// ログイン処理
-// Route::post('/login', [StaffLogin::class, 'login']);
-
-// メール認証誘導画面表示
-// Route::get('/email/verify', function () {
-//     return view('staff.mailenable');
-// })->middleware('auth')->name('verification.notice');
 Route::get('/mailenable', function () {
     return view('staff.mailenable');
 })->middleware('auth')->name('verification.notice');

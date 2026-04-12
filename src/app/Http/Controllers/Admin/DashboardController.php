@@ -41,12 +41,16 @@ class DashboardController extends Controller
     public function show($id)
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
-        
+
         // 修正申請があるかどうか
         $requestData = $attendance->request ?? null;
+        // $requestData = StampCorrectionRequest::where('attendance_id', $attendance->id)
+            // ->latest()
+            // ->first();
 
         // 申請があれば編集不可
         $isPending = !is_null($requestData);
+        // $isPending = $requestData && $requestData->status == 0;
 
         return view('admin.attendance.detail', compact('attendance', 'isPending', 'requestData'));
     }

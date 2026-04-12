@@ -79,6 +79,16 @@
     margin-bottom: 15px;
 }
 
+.form__button-register {
+background: transparent;
+color: #0073ff;
+font-weight: normal;
+font-size: 18px;
+height: auto;
+line-height: normal;
+padding: 0;
+}
+
 /* ホバー */
 .form__button-submit:hover {
     background-color: #333;

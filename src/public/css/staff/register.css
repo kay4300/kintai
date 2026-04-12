@@ -14,7 +14,7 @@
 ================================ */
 .register-form__heading {
     text-align: center;
-    margin-bottom: 40px;
+    margin: 20px 20px;
 }
 
 .register-form__heading h1 {
@@ -91,7 +91,7 @@
     height: 50px;
     line-height: 50px;
     border-radius: 5px;
-    background: #FF5555;
+    background: #000;
     color: #fff;
     font-family: 'Inter', sans-serif;
     font-weight: 700;

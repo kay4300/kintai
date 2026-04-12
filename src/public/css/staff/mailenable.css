@@ -25,7 +25,7 @@
 }
 
 /* 認証ボタン */
-.verify__button-wrapper .btn {
+.verify__button {
     display: inline-block;
     width: 100%;
     max-width: 250px;
@@ -36,7 +36,7 @@
     font-size: 24px;
     text-align: center;
     color: black;
-    background-color: gray;
+    background-color: lightgray;
     border: none;
     border-radius: 5px;
     text-decoration: none;

@@ -3,7 +3,8 @@
 @section('title', 'メール認証 | kintai')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/mailenable.css') }}">
+<link rel="stylesheet" href="{{ asset('css/shared/app.css') }}">
+<link rel="stylesheet" href="{{ asset('css/staff/mailenable.css') }}">
 @endsection
 
 @section('content')
