@@ -29,7 +29,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 // 再送
 Route::post('/email/verification-notification', function () {
     request()->user()->sendEmailVerificationNotification();
-    return back()->with('message', '再送しました');
+    return redirect('http://localhost:8025');
 })->middleware(['auth'])->name('verification.send');
 
 // 登録画面

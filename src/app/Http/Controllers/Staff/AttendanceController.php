@@ -210,16 +210,17 @@ class AttendanceController extends Controller
 
         // ① 申請経由で来た場合
         if ($requestId) {
-            $requestData = StampCorrectionRequest::findOrFail($requestId);
+            $requestData = StampCorrectionRequest::where('id', $requestId)
+                ->where('attendance_id', $attendance->id)
+                ->firstOrFail();
         } else {
-            // 勤怠一覧から来た場合でも申請を探す（←ここが追加ポイント）
-            $requestData = StampCorrectionRequest::where('user_id', auth()->id())
-                ->whereDate('target_date', $attendance->date)
-                ->where('status', 0)
+            // 勤怠一覧から来た場合でも申請を探す
+            $requestData = StampCorrectionRequest::where('attendance_id', $attendance->id)
+                ->latest()
                 ->first();
         }
         // 承認待ちかどうか
-        $isPending = $requestData ? $requestData->status === 0 : false;
+        $isPending = !is_null($requestData);
 
         return view('staff.attendance.detail', compact('attendance', 'isPending', 'requestData'));
     }

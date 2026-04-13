@@ -22,7 +22,7 @@ class RequestController extends Controller
         }
 
         $requests = $query->orderBy('created_at', 'desc')->get();
-    
+        // dd($requests);
         return view('admin.request.index', compact('requests', 'status'));
     }
     //
