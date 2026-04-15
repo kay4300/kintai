@@ -100,14 +100,15 @@
     {{-- ===================== --}}
     @else
 
-    @if (request()->is('admin/*'))
-    <form method="POST" action="{{ route('admin.attendance.update', $attendance->id) }}" class="detail-card">
-        @method('PUT')
-        @else
-        <form method="POST" action="{{ route('stamp_correction_request.store') }}" class="detail-card">
-            @endif
+    @if (request()->is('admin/*')) 
+    <form method="POST" action="{{ route('admin.attendance.update', $attendance->id) }}" class="detail-card"> 
+        @method('PUT') 
+        @else 
+        <form method="POST" action="{{ route('stamp_correction_request.store') }}" class="detail-card"> 
+        @endif 
+            
+        @csrf
 
-            @csrf
             <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
             <input type="hidden" name="target_date" value="{{ $attendance->date }}">
 
@@ -132,7 +133,7 @@
                 <tr>
                     <th>出勤・退勤</th>
                     <td>
-                        <input type="time" name="start_time" class="time-input" 
+                        <input type="time" name="start_time" class="time-input"
                             value="{{ old('start_time', $attendance->start_time) ? \Carbon\Carbon::parse(old('start_time', $attendance->start_time))->format('H:i') : '' }}"
                             @if($isPending) readonly @endif>
                         〜
@@ -150,12 +151,12 @@
 
                     <th>休憩</th>
                     <td>
-                        <input type="time" name="break_start_1" class="time-input" 
+                        <input type="time" name="break_start_1" class="time-input"
                             value="{{ old('break_start_1', $break1?->start_time ? \Carbon\Carbon::parse($break1->start_time)->format('H:i') : '') }}"
                             @if($isPending) readonly @endif>
 
                         〜
-                        <input type="time" name="break_end_1" class="time-input" 
+                        <input type="time" name="break_end_1" class="time-input"
                             value="{{ old('break_end_1', $break1?->end_time ? \Carbon\Carbon::parse($break1->end_time)->format('H:i') : '') }}"
                             @if($isPending) readonly @endif>
                     </td>
@@ -164,7 +165,7 @@
                 <tr>
                     <th>休憩2</th>
                     <td>
-                        <input type="time" name="break_start_2" class="time-input" 
+                        <input type="time" name="break_start_2" class="time-input"
                             value="{{ old('break_start_2', $break2?->start_time ? \Carbon\Carbon::parse($break2->start_time)->format('H:i') : '') }}"
                             @if($isPending) readonly @endif>
                         〜
@@ -180,9 +181,7 @@
                         <!-- @if($isPending)
                         <textarea rows="3" disabled>{{ $requestData->reason ?? '' }}</textarea>
                         @else -->
-                        <textarea name="reason" rows="3" required @if($isPending) readonly @endif>
-                        {{ old('reason', $requestData->reason ?? '') }}
-                        </textarea>
+                        <textarea name="reason" rows="3" required @if($isPending) readonly @endif>{{ old('reason', $requestData->reason ?? '') }}</textarea>
                         <!-- @endif -->
                     </td>
                 </tr>
@@ -190,13 +189,13 @@
 
             <div class="action-area">
                 @if(isset($isPending) && $isPending)
-                    @if($requestData->status == 0)
-                    <p class="pending-message">承認待ちのため修正はできません。</p>
-                    @elseif($requestData->status == 1)
-                    <p class="approved-message">承認済み</p>
-                    @endif
-                @else    
-                    <button type="submit" class="approve-btn">修正</button>
+                @if($requestData->status == 0)
+                <p class="pending-message">承認待ちのため修正はできません。</p>
+                @elseif($requestData->status == 1)
+                <p class="approved-message">承認済み</p>
+                @endif
+                @else
+                <button type="submit" class="approve-btn">修正</button>
                 @endif
             </div>
 

@@ -23,14 +23,16 @@ class LoginController extends Controller
             // スタッフかどうか確認
             if ($user->role !== 'staff') {
                 Auth::logout();
-                return back()->withErrors(['email' => '権限がありません']);
+                return back()->withErrors(['login' => 'ログイン情報が登録されていません'])
+                    ->withInput();
             }
 
             
-            return redirect('staff.attendance.index');
+            return redirect()->route('staff.attendance.index');
         }
 
-        return back()->withErrors(['email' => 'ログイン情報が正しくありません']);
+        return back()->withErrors(['login' => 'ログイン情報が登録されていません'])
+            ->withInput();
     }
 
     public function register(Request $request)

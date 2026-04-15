@@ -41,7 +41,7 @@ class DashboardController extends Controller
     public function show($id)
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
-    
+
         // 修正申請があるかどうか
         // $requestData = $attendance->request ?? null;
         $requestData = StampCorrectionRequest::where('attendance_id', $attendance->id)
@@ -53,7 +53,7 @@ class DashboardController extends Controller
         $isPending = !is_null($requestData);
         // $isLocked = !is_null($requestData);
         // $isPending = $requestData && $requestData->status == 0;
-        
+
         return view('admin.attendance.detail', compact('attendance', 'isPending', 'requestData'));
     }
     // 保存
@@ -66,7 +66,8 @@ class DashboardController extends Controller
 
         if (StampCorrectionRequest::where('attendance_id', $attendance->id)->exists()) {
             abort(403, 'この勤怠は修正できません');
-        }    
+        }
+
         // if ($exists) {
         //     return back()->with('error', 'すでに申請があります');
         // }
@@ -105,14 +106,14 @@ class DashboardController extends Controller
     public function approveUpdate($id)
     {
         $requestData = StampCorrectionRequest::with('attendance')->findOrFail($id);
-    
+
         // すでに承認済みなら何もしない
         if ($requestData->status == 1) {
             return back();
         }
 
         $attendance = $requestData->attendance;
-        
+
         // 勤怠に反映
         if ($requestData->start_time) {
             $attendance->start_time = $requestData->start_time;
@@ -121,7 +122,7 @@ class DashboardController extends Controller
         if ($requestData->end_time) {
             $attendance->end_time = $requestData->end_time;
         }
-        
+
         $attendance->save();
 
         // 承認済みに変更
@@ -130,5 +131,5 @@ class DashboardController extends Controller
 
         return redirect()->route('admin.stamp_correction_request.approve', $id);
     }
-         //
+    //
 }

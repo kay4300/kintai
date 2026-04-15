@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Staff;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-// use App\Http\Controllers\Staff\Registered;
+use App\Http\Requests\StaffRegisterRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
-    public function register(Request $request)
+    public function register(StaffRegisterRequest $request)
     {
         $user = User::create([
             'name' => $request->name,
