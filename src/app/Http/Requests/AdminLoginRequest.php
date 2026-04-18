@@ -28,4 +28,12 @@ class AdminLoginRequest extends FormRequest
             //
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.required' => 'メールアドレスを入力してください',
+            'password.required' => 'パスワードを入力してください',
+        ];
+    }
 }

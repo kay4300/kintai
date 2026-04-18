@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'kintai')
+@section('title', 'admin.kintai')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/shared/app.css') }}">
@@ -58,7 +58,7 @@
                     {{ $request->reason }}
                 </td>
                 <td>
-                    <a href="{{ route('admin.stamp_correction_request.approve', $request->id) }}">
+                    <a href="{{ route('admin.request.show', $request->id) }}">
                         詳細
                     </a>
                 </td>

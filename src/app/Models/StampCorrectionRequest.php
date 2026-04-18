@@ -15,6 +15,10 @@ class StampCorrectionRequest extends Model
         'target_date',
         'start_time',
         'end_time',
+        'break_start_1',
+        'break_end_1',
+        'break_start_2',
+        'break_end_2',
         'reason',
         'status',
     ];

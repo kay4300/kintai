@@ -46,6 +46,7 @@ class DashboardController extends Controller
         // $requestData = $attendance->request ?? null;
         $requestData = StampCorrectionRequest::where('attendance_id', $attendance->id)
             // ->where('status', 0)
+            // ->exists();
             ->latest()
             ->first();
 
@@ -53,8 +54,9 @@ class DashboardController extends Controller
         $isPending = !is_null($requestData);
         // $isLocked = !is_null($requestData);
         // $isPending = $requestData && $requestData->status == 0;
+        $isApproveMode = false;
 
-        return view('admin.attendance.detail', compact('attendance', 'isPending', 'requestData'));
+        return view('shared.attendance_detail', compact('attendance', 'isPending', 'requestData', 'isApproveMode'));
     }
     // 保存
     public function update(Request $request, $id)
@@ -129,7 +131,7 @@ class DashboardController extends Controller
         $requestData->status = 1;
         $requestData->save();
 
-        return redirect()->route('admin.stamp_correction_request.approve', $id);
+        return redirect()->route('admin.request.index');
     }
     //
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StaffDetailRequest;
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use App\Models\Attendance;
 use App\Models\BreakTime;
 use App\Models\StampCorrectionRequest;
 use Carbon\CarbonImmutable;
+
 
 class AttendanceController extends Controller
 {
@@ -220,61 +222,84 @@ class AttendanceController extends Controller
                 ->first();
         }
         // 承認待ちかどうか
-        $isPending = !is_null($requestData);
+        // $isPending = !is_null($requestData);
+        // $isPending = $requestData && $requestData->status == 0;
+        $isPending = StampCorrectionRequest::where('attendance_id', $attendance->id)
+            ->where('status', 0)
+            ->exists();
 
-        return view('staff.attendance.detail', compact('attendance', 'isPending', 'requestData'));
+        $isApproveMode = false;
+
+        return view('staff.attendance.detail', compact('attendance', 'isPending', 'requestData', 'isApproveMode'));
     }
     // 勤怠修正
-    public function update(Request $request, $id)
-    {
-        $attendance = Attendance::with('breaks')
-            ->where('user_id', auth()->id())
-            ->findOrFail($id);
+    // public function update(StaffDetailRequest $request, $id)
+    // {
+    //     $validated = $request->validated();
 
-        $date = \Carbon\Carbon::parse($attendance->date)->format('Y-m-d');
+    //     $attendance = Attendance::with('breaks')
+    //         ->where('user_id', auth()->id())
+    //         ->findOrFail($id);
+
+    //     $date = \Carbon\Carbon::parse($attendance->date)->format('Y-m-d');
 
         // 出勤・退勤更新
-        $attendance->update([
-            'start_time' => $request->start_time
-                ? Carbon::parse($date . ' ' . $request->start_time)
-                : null,
+        // $attendance->update([
+        //     'start_time' => $validated['start_time']
+        //         ? Carbon::parse($date . ' ' . $validated['start_time'])
+        //         : null,
 
-            'end_time' => $request->end_time
-                ? Carbon::parse($date . ' ' . $request->end_time)
-                : null,
-            'note' => $request->note,
-        ]);
+        //     'end_time' => $validated['end_time']
+        //         ? Carbon::parse($date . ' ' . $validated['end_time'])
+        //         : null,
+        //     'reason' => $validated['reason'],
+        // ]);
 
-        $breaks = $attendance->breaks;
+        // $breaks = $attendance->breaks;
 
         // 休憩1
-        if (isset($breaks[0])) {
-            $breaks[0]->update([
-                'start_time' => $request->break_start_1
-                    ? Carbon::parse($date . ' ' . $request->break_start_1)
-                    : null,
+        // if (isset($breaks[0])) {
+        //     $breaks[0]->update([
+        //         'start_time' => $validated['break_start_1']
+        //             ? Carbon::parse($date . ' ' . $validated['break_start_1'])
+        //             : null,
 
-                'end_time' => $request->break_end_1
-                    ? Carbon::parse($date . ' ' . $request->break_end_1)
-                    : null,
-            ]);
-        }
+        //         'end_time' => $validated['break_end_1']
+        //             ? Carbon::parse($date . ' ' . $request->break_end_1)
+        //             : null,
+        //     ]);
+        // }
 
         // 休憩2
-        if (isset($breaks[1])) {
-            $breaks[1]->update([
-                'start_time' => $request->break_start_2
-                    ? Carbon::parse($date . ' ' . $request->break_start_2)
-                    : null,
+    //     if (isset($breaks[1])) {
+    //         $breaks[1]->update([
+    //             'start_time' => $validated['break_start_2']
+    //                 ? Carbon::parse($date . ' ' . $validated['break_start_2'])
+    //                 : null,
 
-                'end_time' => $request->break_end_2
-                    ? Carbon::parse($date . ' ' . $request->break_end_2)
-                    : null,
-            ]);
-        }
+    //             'end_time' => $validated['break_end_2']
+    //                 ? Carbon::parse($date . ' ' . $validated['break_end_2'])
+    //                 : null,
+    //         ]);
+    //     }
 
-        return redirect()->back()->with('message', '更新しました');
-    }
+    //     $request->validate([
+    //         'target_date' => 'required|date',
+    //         'reason' => 'required|string|max:255',
+    //     ]);
+
+    //     StampCorrectionRequest::create([
+    //         'user_id' => Auth::id(),
+    //         'attendance_id' => $id,
+    //         'target_date' => $request->target_date,
+    //         'reason' => $request->reason,
+    //         'start_time' => $request->start_time,
+    //         'end_time' => $request->end_time,
+    //         'status' => 0,
+    //     ]);
+
+    //     return redirect()->back()->with('message', '更新しました');
+    // }
 
     // ログアウト
     public function logout(Request $request)

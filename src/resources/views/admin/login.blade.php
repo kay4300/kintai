@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'kintai')
+@section('title', 'admin.kintai')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/shared/app.css') }}">

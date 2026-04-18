@@ -89,8 +89,7 @@ Route::middleware('auth')->group(function () {
 
     // 申請保存
     Route::post('/stamp_correction_request', [StampCorrectionRequestController::class, 'store'])
-        ->name('stamp_correction_request.store');   
-        
+        ->name('stamp_correction_request.store');
 });
 
 
@@ -120,7 +119,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // 勤怠修正
         Route::put('/attendance/{id}', [DashboardController::class, 'update'])
             ->name('attendance.update');
-        
+
         // スタッフ一覧画面
         Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.index');
 
@@ -132,21 +131,32 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/staff/{id}/attendance/csv', [StaffController::class, 'csv'])
             ->name('staff.csv');
 
-        // 申請一覧画面
-        Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])
+        // 申請一覧表示
+        Route::get('/request/list', [RequestController::class, 'index'])
             ->name('request.index');
 
+         //申請詳細画面 
+        Route::get('/request/{id}', [RequestController::class, 'show'])
+            ->name('request.show');    
+
+        // 承認
+        Route::post('/request/{id}/approve', [RequestController::class, 'approve'])
+            ->name('request.approve');    
+
+        // 申請一覧画面
+        // Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])
+        //     ->name('admin.request.index');
+
         // 申請承認
-        Route::get('/stamp_correction_request/approve/{id}',[DashboardController::class, 'approve'])
-            ->name('stamp_correction_request.approve');
+        // Route::get('/stamp_correction_request/approve/{id}', [DashboardController::class, 'approve'])
+        //     ->name('stamp_correction_request.approve');
 
-         //承認済み 
-        Route::post(
-            '/stamp_correction_request/approve/{id}',
-            [DashboardController::class, 'approveUpdate'])
-            ->name('stamp_correction_request.approve.update');
-
-        
+        //承認済み 
+        // Route::post(
+        //     '/stamp_correction_request/approve/{id}',
+        //     [DashboardController::class, 'approveUpdate']
+        // )
+        //     ->name('stamp_correction_request.approve.update');
     });
 });
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\StampCorrectionRequest;
+use App\Models\Attendance;
 
 class StampCorrectionRequestController extends Controller
 {
@@ -35,13 +36,19 @@ class StampCorrectionRequestController extends Controller
         ]);
 
         // 保存
+        $attendance = Attendance::findOrFail($request->attendance_id);
+
         StampCorrectionRequest::create([
             'user_id' => Auth::id(),
             'attendance_id' => $request->attendance_id,
-            'target_date' => $request->target_date,
+            'target_date' => $attendance->date,
             'reason' => $request->reason,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'break_start_1' => $request->break_start_1,
+            'break_end_1' => $request->break_end_1,
+            'break_start_2' => $request->break_start_2,
+            'break_end_2' => $request->break_end_2,
             'status' => 0, // 承認待ち
         ]);
     
