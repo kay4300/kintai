@@ -12,11 +12,16 @@
 
     <h1 class="page-title">勤怠詳細</h1>
 
-    @php
+    <!-- @php
     $breaks = $attendance->breaks;
+    @endphp -->
+
+    @php
+    $isPending = $requestData && $requestData->status == 0;
+    $isApproved = $requestData && $requestData->status == 1;
     @endphp
 
-    
+
 
     {{-- ===================== --}}
     {{-- スタッフ画面 --}}
@@ -32,17 +37,38 @@
     @if($isApproveMode)
 
     {{-- 承認用フォーム --}}
-    <form method="POST"
+    <!-- <form method="POST"
         action="{{ route('admin.request.approve', $requestData->id) }}"
         class="detail-card">
 
         @csrf
 
+        @else -->
+
+    {{-- 修正用フォーム --}}
+    <!-- <form method="POST"
+            action="{{ route('admin.attendance.update', $attendance->id) }}"
+            class="detail-card">
+
+            @csrf
+            @method('PUT')
+
+            @endif -->
+    @if($isApproveMode)
+
+    {{-- 承認用フォーム --}}
+    <form method="POST"
+        action="{{ route('admin.request.approve', $requestData->id) }}"
+        class="detail-card">
+        @csrf
+
         @else
 
-        {{-- 修正用フォーム --}}
+        {{-- 修正用フォーム（admin / staff 共通） --}}
         <form method="POST"
-            action="{{ route('admin.attendance.update', $attendance->id) }}"
+            action="{{ auth()->guard('admin')->check()
+        ? route('admin.attendance.update', $attendance->id)
+        : route('staff.attendance.update', $attendance->id) }}"
             class="detail-card">
 
             @csrf
@@ -74,11 +100,10 @@
                         value="{{ $attendance->start_time ? \Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '' }}"
                         @if($requestData && $requestData->status == 0) readonly @endif> -->
                         <input type="time" name="start_time"
-                            value="{{ $isApproveMode
-        ? ($requestData->start_time ? \Carbon\Carbon::parse($requestData->start_time)->format('H:i') : '')
-        : ($attendance->start_time ? \Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '') }}"
-                            {{ $requestData ? 'readonly' : '' }}>
-
+                            value="{{ old('start_time',$isApproveMode
+                            ? ($requestData->start_time ? \Carbon\Carbon::parse($requestData->start_time)->format('H:i') : '')
+                            : ($attendance->start_time ? \Carbon\Carbon::parse($attendance->start_time)->format('H:i') : '')) }}"
+                            {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
 
                         〜
 
@@ -86,49 +111,50 @@
                         value="{{ $attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '' }}"
                         @if($requestData && $requestData->status == 0) readonly @endif> -->
                         <input type="time" name="end_time"
-                            value="{{ $isApproveMode
-        ? ($requestData->end_time ? \Carbon\Carbon::parse($requestData->end_time)->format('H:i') : '')
-        : ($attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '') }}"
-                            {{ $requestData ? 'readonly' : '' }}>
+                            value="{{ old('end_time',
+        $isApproveMode
+            ? ($requestData->end_time ? \Carbon\Carbon::parse($requestData->end_time)->format('H:i') : '')
+            : ($attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '')
+    ) }}"
+                            {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
+                        @error('time')
+                        <p class="error">{{ $message }}</p>
+                        @enderror
+
                     </td>
                 </tr>
 
                 <tr>
                     @php
+                    $breaks = $attendance->breakTimes;
                     $break1 = $breaks[0] ?? null;
                     $break2 = $breaks[1] ?? null;
                     @endphp
 
                     <th>休憩</th>
                     <td>
-                        <!-- <input type="time" name="break_start_1"
-                        value="{{ $break1?->start_time ? \Carbon\Carbon::parse($break1->start_time)->format('H:i') : '' }}"
-                        @if($requestData && $requestData->status == 0) readonly @endif> -->
                         <input type="time" name="break_start_1"
-                            value="{{ $isApproveMode
-        ? ($requestData->break_start_1
-            ? \Carbon\Carbon::parse($requestData->break_start_1)->format('H:i')
-            : '')
-        : ($attendance->break_start_1
-            ? \Carbon\Carbon::parse($attendance->break_start_1)->format('H:i')
-            : '') }}"
-                            {{ $isApproveMode ? 'readonly' : '' }}>
-
+                            value="{{ old('break_start_1',
+        $break1?->start_time
+            ? \Carbon\Carbon::parse($break1->start_time)->format('H:i')
+            : ''
+    ) }}"
+                            {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
 
                         〜
 
-                        <!-- <input type="time" name="break_end_1"
-                        value="{{ $break1?->end_time ? \Carbon\Carbon::parse($break1->end_time)->format('H:i') : '' }}"
-                        @if($requestData && $requestData->status == 0) readonly @endif> -->
                         <input type="time" name="break_end_1"
-                            value="{{ $isApproveMode
-        ? ($requestData->break_end_1
-            ? \Carbon\Carbon::parse($requestData->break_end_1)->format('H:i')
-            : '')
-        : ($attendance->break_end_1
-            ? \Carbon\Carbon::parse($attendance->break_end_1)->format('H:i')
-            : '') }}"
-                            {{ $isApproveMode ? 'readonly' : '' }}>
+                            value="{{ old('break_end_1',
+        $break1?->end_time
+            ? \Carbon\Carbon::parse($break1->end_time)->format('H:i')
+            : ''
+    ) }}"
+                            {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
+
+
+                        @error('break')
+                        <p class="error">{{ $message }}</p>
+                        @enderror
 
                     </td>
                 </tr>
@@ -136,34 +162,27 @@
                 <tr>
                     <th>休憩2</th>
                     <td>
-                        <!-- <input type="time" name="break_start_2"
-                        value="{{ $break2?->start_time ? \Carbon\Carbon::parse($break2->start_time)->format('H:i') : '' }}"
-                        @if($requestData && $requestData->status == 0) readonly @endif> -->
                         <input type="time" name="break_start_2"
-                            value="{{ $isApproveMode
-        ? ($requestData->break_start_2
-            ? \Carbon\Carbon::parse($requestData->break_start_2)->format('H:i')
-            : '')
-        : ($attendance->break_start_2
-            ? \Carbon\Carbon::parse($attendance->break_start_2)->format('H:i')
-            : '') }}"
-                            {{ $isApproveMode ? 'readonly' : '' }}>
-
+                            value="{{ old('break_start_2',
+        $break2?->start_time
+            ? \Carbon\Carbon::parse($break2->start_time)->format('H:i')
+            : ''
+    ) }}"
+                            {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
 
                         〜
 
-                        <!-- <input type="time" name="break_end_2"
-                        value="{{ $break2?->end_time ? \Carbon\Carbon::parse($break2->end_time)->format('H:i') : '' }}"
-                        @if($requestData && $requestData->status == 0) readonly @endif> -->
                         <input type="time" name="break_end_2"
-                            value="{{ $isApproveMode
-        ? ($requestData->break_end_2
-            ? \Carbon\Carbon::parse($requestData->break_end_2)->format('H:i')
-            : '')
-        : ($attendance->break_end_2
-            ? \Carbon\Carbon::parse($attendance->break_end_2)->format('H:i')
-            : '') }}"
-                            {{ $isApproveMode ? 'readonly' : '' }}>
+                            value="{{ old('break_end_2',
+        $break2?->end_time
+            ? \Carbon\Carbon::parse($break2->end_time)->format('H:i')
+            : ''
+    ) }}"
+                            {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
+
+                        @error('break')
+                        <p class="error">{{ $message }}</p>
+                        @enderror
 
                     </td>
                 </tr>
@@ -172,20 +191,25 @@
                     <th>修正理由</th>
                     <td>
                         <textarea name="reason" rows="3"
-                            {{ $requestData ? 'readonly' : '' }}>
+                            {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
                         {{ $requestData->reason ?? '' }}
                         </textarea>
+
+                        @error('reason')
+                        <p class="error">{{ $message }}</p>
+                        @enderror
+
                     </td>
                 </tr>
             </table>
 
-            
+
             <div class="action-area">
 
                 @if($isApproveMode)
 
                 {{-- 承認モード --}}
-                @if($requestData?->status == 1)
+                @if($isApproved)
                 <button disabled>承認済み</button>
                 @else
                 <button type="submit" class="approve-btn">承認</button>
@@ -194,9 +218,9 @@
                 @else
 
                 {{-- 通常モード --}}
-                @if($requestData && $requestData->status == 0)
+                @if($isPending)
                 <p class="pending-message">承認待ちのため修正はできません。</p>
-                @elseif($requestData && $requestData->status == 1)
+                @elseif($isApproved)
                 <p class="approved-message">承認済み</p>
                 @else
                 <button type="submit" class="approve-btn">修正</button>
@@ -206,7 +230,9 @@
 
             </div>
 
-        </form>
+</div>
+
+</form>
 
 </div>
 @endsection

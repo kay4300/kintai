@@ -49,7 +49,10 @@
 
                 @if ($attendance)
                 <td>{{ \Carbon\Carbon::parse($attendance->start_time)->format('H:i') }}</td>
-                <td>{{ \Carbon\Carbon::parse($attendance->end_time)->format('H:i') }}</td>
+                <!-- <td>{{ \Carbon\Carbon::parse($attendance->end_time)->format('H:i') }}</td> -->
+                <td>
+                    {{ $attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '' }}
+                </td>
 
                 <!-- 休憩合計 -->
                 <td>

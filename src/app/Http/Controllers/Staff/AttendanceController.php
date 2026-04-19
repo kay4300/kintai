@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AttendanceUpdateRequest;
 use App\Http\Requests\StaffDetailRequest;
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
@@ -222,16 +223,65 @@ class AttendanceController extends Controller
                 ->first();
         }
         // 承認待ちかどうか
-        // $isPending = !is_null($requestData);
-        // $isPending = $requestData && $requestData->status == 0;
-        $isPending = StampCorrectionRequest::where('attendance_id', $attendance->id)
-            ->where('status', 0)
-            ->exists();
+        $requestData = StampCorrectionRequest::where('attendance_id', $attendance->id)
+            ->latest()
+            ->first();
+
+        $isPending = $requestData && $requestData->status == 0;
+        $isApproved = $requestData && $requestData->status == 1;
 
         $isApproveMode = false;
 
-        return view('staff.attendance.detail', compact('attendance', 'isPending', 'requestData', 'isApproveMode'));
+        return view('staff.attendance.detail', compact(
+            'attendance',
+            'requestData',
+            'isPending',
+            'isApproved',
+            'isApproveMode'
+        ));
     }
+
+    public function update(AttendanceUpdateRequest $request, $id)
+    {
+        $attendance = Attendance::findOrFail($id);
+
+        // すでに承認待ちなら弾く
+        $exists = StampCorrectionRequest::where('attendance_id', $attendance->id)
+            ->where('status', 0)
+            ->exists();
+
+        if ($exists) {
+            return back()->with('error', '承認待ちのため修正できません');
+        }
+
+        // 申請データ作成
+        StampCorrectionRequest::create([
+            'user_id' => auth()->id(),
+            'attendance_id' => $attendance->id,
+            'target_date' => $request->target_date,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'break_start_1' => $request->break_start_1,
+            'break_end_1' => $request->break_end_1,
+            'break_start_2' => $request->break_start_2,
+            'break_end_2' => $request->break_end_2,
+            'reason' => $request->reason,
+            'status' => 0, // 承認待ち
+        ]);
+
+        return redirect()->route('staff.attendance.list')
+            ->with('success', '修正申請を送信しました');
+    }
+        // $isPending = !is_null($requestData);
+        // $isPending = $requestData && $requestData->status == 0;
+        // $isPending = StampCorrectionRequest::where('attendance_id', $attendance->id)
+        //     ->where('status', 0)
+        //     ->exists();
+
+        // $isApproveMode = false;
+
+        // return view('staff.attendance.detail', compact('attendance', 'isPending', 'requestData', 'isApproveMode'));
+    
     // 勤怠修正
     // public function update(StaffDetailRequest $request, $id)
     // {

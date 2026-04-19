@@ -70,7 +70,10 @@
 
                 @if ($attendance)
                 <td>{{ \Carbon\Carbon::parse($attendance->start_time)->format('H:i') }}</td>
-                <td>{{ \Carbon\Carbon::parse($attendance->end_time)->format('H:i') }}</td>
+                <!-- <td>{{ \Carbon\Carbon::parse($attendance->end_time)->format('H:i') }}</td> -->
+                <td>
+                    {{ $attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '' }}
+                </td>
                 <td>{{ floor($breakTotal / 60) }}時間{{ $breakTotal % 60 }}分</td>
                 <td>{{ floor($workMinutes / 60) }}時間{{ $workMinutes % 60 }}分</td>
 
