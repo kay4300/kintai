@@ -45,6 +45,10 @@ class AttendanceUpdateRequest extends FormRequest
     {
         $validator->after(function ($validator) {
 
+            if (!$this->start_time || !$this->end_time) {
+                return;
+            }
+
             $start = Carbon::parse($this->start_time);
             $end = Carbon::parse($this->end_time);
 

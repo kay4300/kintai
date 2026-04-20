@@ -226,7 +226,7 @@ class AttendanceController extends Controller
         $requestData = StampCorrectionRequest::where('attendance_id', $attendance->id)
             ->latest()
             ->first();
-
+        
         $isPending = $requestData && $requestData->status == 0;
         $isApproved = $requestData && $requestData->status == 1;
 

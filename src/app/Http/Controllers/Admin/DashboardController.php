@@ -50,7 +50,7 @@ class DashboardController extends Controller
             // ->exists();
             ->latest()
             ->first();
-
+        
         // 申請があれば編集不可
         $isPending = !is_null($requestData);
         // $isLocked = !is_null($requestData);

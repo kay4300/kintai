@@ -93,6 +93,13 @@
     width: 100%;
 }
 
+/* エラーメッセージ */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
 .time-input {
     background-color: #f5f5f5;
     cursor: not-allowed;
