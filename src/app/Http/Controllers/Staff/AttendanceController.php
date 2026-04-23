@@ -158,7 +158,7 @@ class AttendanceController extends Controller
         $attendances = Attendance::where('user_id', auth()->id())
             ->whereDate('date', '>=', $start)
             ->whereDate('date', '<=', $end)
-            ->with('breaks')
+            ->with('breakTimes')
             ->get()
             ->keyBy(function ($item) {
                 return \Carbon\Carbon::parse($item->date)->toDateString();
@@ -205,7 +205,7 @@ class AttendanceController extends Controller
     // 詳細画面
     public function detail($id, $requestId = null)
     {
-        $attendance = Attendance::with('breaks')
+        $attendance = Attendance::with('breakTimes')
             ->where('user_id', auth()->id())
             ->findOrFail($id);
 

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Attendance;
 
 class AttendanceTest extends TestCase
 {
@@ -223,6 +224,57 @@ class AttendanceTest extends TestCase
         $attendance->refresh();
         $this->assertNotNull($attendance->start_time);
         $this->assertNotNull($attendance->end_time);
+    }
+
+    /** @test */
+    public function 自分の勤怠情報のみ表示される()
+    {
+        $user = \App\Models\User::factory()->create();
+        $otherUser = \App\Models\User::factory()->create();
+
+        $this->actingAs($user);
+
+        // 自分のデータ
+        \App\Models\Attendance::create([
+            'user_id' => $user->id,
+            'date' => now()->toDateString(),
+            'start_time' => '2026-04-23 09:00:00',
+            'end_time' => '2026-04-23 18:00:00',
+            'status' => 3,
+        ]);
+
+        // 他人のデータ
+        \App\Models\Attendance::create([
+            'user_id' => $otherUser->id,
+            'date' => now()->toDateString(),
+            'start_time' => '2026-04-23 10:00:00',
+            'end_time' => '2026-04-23 19:00:00',
+            'status' => 3,
+        ]);
+
+        $response = $this->get('/attendance/list');
+
+        $response->assertStatus(200);
+
+        // 自分のデータは見える
+        $response->assertSee('09:00');
+
+        // 他人のデータは見えない
+        $response->assertDontSee('10:00');
+    }
+
+    /** @test */
+    public function 現在の月が表示される()
+    {
+        $user = \App\Models\User::factory()->create();
+
+        $this->actingAs($user);
+
+        $response = $this->get('/attendance/list');
+
+        $response->assertStatus(200);
+
+        $response->assertSee(now()->format('Y年m月'));
     }
 }
 

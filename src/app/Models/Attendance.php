@@ -34,10 +34,10 @@ class Attendance extends Model
         return $this->hasMany(BreakTime::class);
     }
 
-    public function breaks()
-    {
-        return $this->hasMany(BreakTime::class);
-    }
+    // public function breaks()
+    // {
+    //     return $this->hasMany(BreakTime::class);
+    // }
 
     public function getStartTimeFormattedAttribute()
     {
