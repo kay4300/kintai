@@ -116,7 +116,7 @@ class StaffIndexTest extends TestCase
 
         $attendance = Attendance::factory()->create([
             'user_id' => $user->id,
-            'date' => '2024-04-10 09:00:00', // ← ここ重要
+            'date' => '2024-04-10 09:00:00', // 時間も入れる
         ]);
 
         $response = $this->actingAs($admin, 'admin')

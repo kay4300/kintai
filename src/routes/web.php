@@ -39,15 +39,7 @@ Route::get('/register', function () {
 // 登録処理
 Route::post('/register', [RegisterController::class, 'register']);
 
-// ログイン後画面表示
-// Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance')
-// ->middleware(['auth', 'verified']);
-
-//ログアウト 
-// Route::post('/logout', function () {
-//     Auth::logout();
-//     return redirect('/login');
-// })->name('logout');
+// ログアウト
 Route::post('/logout', [AttendanceController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
@@ -79,10 +71,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/attendance/{id}', [AttendanceController::class, 'update'])
         ->name('staff.attendance.update');
 
-
-    // 申請一覧
-    // Route::get('/request/list', [StaffRequestController::class, 'index'])
-    //     ->name('staff.request.index');
     // 申請一覧画面表示
     Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'index'])
         ->name('stamp_correction_request.list');
@@ -143,20 +131,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/request/{id}/approve', [RequestController::class, 'approve'])
             ->name('request.approve');    
 
-        // 申請一覧画面
-        // Route::get('/stamp_correction_request/list', [RequestController::class, 'index'])
-        //     ->name('admin.request.index');
-
-        // 申請承認
-        // Route::get('/stamp_correction_request/approve/{id}', [DashboardController::class, 'approve'])
-        //     ->name('stamp_correction_request.approve');
-
-        //承認済み 
-        // Route::post(
-        //     '/stamp_correction_request/approve/{id}',
-        //     [DashboardController::class, 'approveUpdate']
-        // )
-        //     ->name('stamp_correction_request.approve.update');
     });
 });
 

@@ -87,7 +87,7 @@ class RegisterTest extends TestCase
             'email' => 'test@example.com',
         ]);
 
-        // ここは環境により変わる（重要）
+        //環境により変わるためステータスコードだけ確認
         $response->assertStatus(302);
     }
 }

@@ -33,7 +33,7 @@
     <p class="date-text">{{ now()->locale('ja')->isoFormat('YYYY年M月D日（ddd）') }}</p>
 
     {{-- 時刻 --}}
-    <!-- <h1>{{ now()->format('H:i') }}</h1> -->
+    
     <h1 id="clock" class="clock"></h1>
 
     <script>

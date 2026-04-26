@@ -70,7 +70,7 @@
 
                 @if ($attendance)
                 <td>{{ \Carbon\Carbon::parse($attendance->start_time)->format('H:i') }}</td>
-                <!-- <td>{{ \Carbon\Carbon::parse($attendance->end_time)->format('H:i') }}</td> -->
+
                 <td>
                     {{ $attendance->end_time ? \Carbon\Carbon::parse($attendance->end_time)->format('H:i') : '' }}
                 </td>
@@ -97,7 +97,7 @@
     </table>
 
 
-    <div style="text-align: right; margin-top: 20px;">
+    <div class="csv-button">
         <a href="{{ route('admin.staff.csv', ['id' => $staff->id, 'month' => $currentMonth->format('Y-m')]) }}" class="form__button-submit">
             CSV出力
         </a>

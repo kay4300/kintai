@@ -104,50 +104,7 @@ class RequestController extends Controller
         return redirect()->route('admin.request.index')
             ->with('message', '承認しました');
     }
-    // public function approve($id)
-    // {
-    //     $requestData = StampCorrectionRequest::with('attendance.breaks')->findOrFail($id);
-
-    //     // すでに承認済みなら何もしない
-    //     if ($requestData->status == 1) {
-    //         return back();
-    //     }
-
-    //     $attendance = $requestData->attendance;
-
-    //     // 勤怠に反映
-    //     $attendance->update([
-    //         'start_time' => $requestData->start_time,
-    //         'end_time' => $requestData->end_time,
-    //     ]);
-
-    //     // 休憩反映
-    //     $breaks = $attendance->breaks;
-
-    //     if (isset($breaks[0])) {
-    //         $breaks[0]->update([
-    //             'start_time' => $requestData->break_start_1,
-    //             'end_time' => $requestData->break_end_1,
-    //         ]);
-    //     }
-
-    //     if (isset($breaks[1])) {
-    //         $breaks[1]->update([
-    //             'start_time' => $requestData->break_start_2,
-    //             'end_time' => $requestData->break_end_2,
-    //         ]);
-    //     }
-
-    //     // 承認済みに変更
-    //     $requestData->update([
-    //         'status' => 1
-    //     ]);
-
-    //     return redirect()->route('admin.request.index')
-    //         ->with('message', '承認しました');
-    // }
-    
-    
+        
     // 詳細表示（承認画面）
     public function show($id)
     {

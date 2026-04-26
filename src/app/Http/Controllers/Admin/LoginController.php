@@ -29,15 +29,6 @@ class LoginController extends Controller
         ]);
     }
 
-    // 勤怠一覧
-    // public function dashboard()
-    // {
-        // 後でAttendanceモデルに差し替え
-    //     $attendances = [];
-
-    //     return view('admin.dashboard', compact('attendances'));
-    // }
-
     public function logout()
     {
         Auth::guard('admin')->logout();

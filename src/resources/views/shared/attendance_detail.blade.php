@@ -17,33 +17,7 @@
     $isApproved = $requestData && $requestData->status == 1;
     @endphp
 
-    <!-- <form method="POST" action="{{ route('stamp_correction_request.store') }}" class="detail-card"> -->
-    <!-- <form method="POST"
-        action="{{ $isApproveMode
-        ? route('admin.request.approve', $requestData->id)
-        : route('admin.attendance.update', $attendance->id) }}"
-        class="detail-card"> -->
-
-    @if($isApproveMode)
-
-    {{-- 承認用フォーム --}}
-    <!-- <form method="POST"
-        action="{{ route('admin.request.approve', $requestData->id) }}"
-        class="detail-card">
-
-        @csrf
-
-        @else -->
-
-    {{-- 修正用フォーム --}}
-    <!-- <form method="POST"
-            action="{{ route('admin.attendance.update', $attendance->id) }}"
-            class="detail-card">
-
-            @csrf
-            @method('PUT')
-
-            @endif -->
+    
     @if($isApproveMode)
 
     {{-- 承認用フォーム --}}

@@ -26,12 +26,5 @@ class LoginResponse implements LoginResponseContract
         return redirect()->route('verification.notice');
     }
 
-    // if ($user->hasVerifiedEmail()) {
-
-    //     return redirect()->route('attendance');
-    // }
-
-    // return redirect()->route('verification.notice');
-    // return redirect()->intended('/dashboard');
-    // 
+    
 }

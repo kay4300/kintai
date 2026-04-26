@@ -44,16 +44,13 @@ class DashboardController extends Controller
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
 
         // 修正申請があるかどうか
-        // $requestData = $attendance->request ?? null;
         $requestData = StampCorrectionRequest::where('attendance_id', $attendance->id)
-            // ->where('status', 0)
-            // ->exists();
             ->latest()
             ->first();
         
         // 申請があれば編集不可
         $isPending = !is_null($requestData);
-        // $isPending = $requestData && $requestData->status == 0;
+        
         $isApproveMode = false;
 
         return view('shared.attendance_detail', compact('attendance', 'isPending', 'requestData', 'isApproveMode'));
@@ -63,16 +60,10 @@ class DashboardController extends Controller
     {
         $attendance = Attendance::findOrFail($id);
 
-        // $exists = StampCorrectionRequest::where('attendance_id', $attendance->id)
-        //     ->exists();
-
+        // すでに承認待ちならはじく
         if (StampCorrectionRequest::where('attendance_id', $attendance->id)->exists()) {
             abort(403, 'この勤怠は修正できません');
         }
-
-        // if ($exists) {
-        //     return back()->with('error', 'すでに申請があります');
-        // }
 
         StampCorrectionRequest::create([
             'user_id' => $attendance->user_id,

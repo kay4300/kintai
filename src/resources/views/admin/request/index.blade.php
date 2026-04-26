@@ -46,12 +46,10 @@
                 <td>
                     {{ $request->user->name ?? '' }}
                 </td>
-                <td>
-                    <!-- {{ \Carbon\Carbon::parse($request->target_date)->format('Y/m/d') }} -->
+                <td>    
                     {{ \Carbon\Carbon::parse($request->target_date)->format('Y/m/d') }}
                 </td>
-                <td>
-                    <!-- {{ $request->created_at->format('Y/m/d H:i') }} -->
+                <td>    
                     {{ $request->created_at->format('Y/m/d') }}
                 </td>
                 <td>
