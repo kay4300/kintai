@@ -33,8 +33,8 @@ class StaffController extends Controller
         $start = $currentMonth->copy()->startOfMonth();
         $end = $currentMonth->copy()->endOfMonth();
         
-        // 👇 日付で取り出しやすくする
-        $attendances = Attendance::with('breaks')
+        //日付で取り出しやすくする
+        $attendances = Attendance::with('breakTimes')
             ->where('user_id', $id)
             ->whereBetween('date', [$start, $end])
             ->get()
@@ -42,10 +42,10 @@ class StaffController extends Controller
                 return \Carbon\Carbon::parse($item->date)->format('Y-m-d');
             });
 
-        // 👇 日付リスト（これが休み表示のカギ）
+        //日付リスト（これが休み表示のカギ）
         $period = CarbonPeriod::create($start, $end);
 
-        // 👇 前月・翌月
+        //前月・翌月
         $prevMonth = $currentMonth->copy()->subMonth()->format('Y-m');
         $nextMonth = $currentMonth->copy()->addMonth()->format('Y-m');
 
@@ -69,7 +69,7 @@ class StaffController extends Controller
         $start = \Carbon\Carbon::parse($month)->startOfMonth();
         $end = \Carbon\Carbon::parse($month)->endOfMonth();
 
-        $attendances = Attendance::with('breaks')
+        $attendances = Attendance::with('breakTimes')
             ->where('user_id', $id)
             ->whereBetween('date', [
                 $start->format('Y-m-d'),
@@ -96,8 +96,8 @@ class StaffController extends Controller
 
                 // 休憩
                 $breakTime = 0;
-                if ($attendance->breaks) {
-                    foreach ($attendance->breaks as $break) {
+                if ($attendance->breakTimes) {
+                    foreach ($attendance->breakTimes as $break) {
                         if ($break->start_time && $break->end_time) {
                             $breakTime += \Carbon\Carbon::parse($break->end_time)
                                 ->diffInMinutes(\Carbon\Carbon::parse($break->start_time));

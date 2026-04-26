@@ -17,8 +17,8 @@ class DetailTest extends TestCase
      */
     use RefreshDatabase;
     
-    /** @test */
-    public function 詳細画面が表示される()
+
+    public function test_詳細画面が表示される()
     {
         $user = User::factory()->create();
 
@@ -36,7 +36,6 @@ class DetailTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test */
     public function test_他人の勤怠詳細は見れない()
     {
         $user = User::factory()->create();
@@ -56,7 +55,6 @@ class DetailTest extends TestCase
         $response->assertStatus(404);
     }
 
-    /** @test */
     public function test_勤怠詳細が表示される()
     {
         $user = User::factory()->create();
@@ -78,7 +76,6 @@ class DetailTest extends TestCase
         $response->assertSee('18:00');
     }
 
-    /** @test */
     public function test_休憩時間が表示される()
     {
         $user = User::factory()->create();

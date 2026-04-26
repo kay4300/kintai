@@ -13,8 +13,7 @@ class RegisterTest extends TestCase
      */
     use RefreshDatabase;
 
-    /** @test */
-    public function 名前が未入力の場合バリデーションエラー()
+    public function test_名前が未入力の場合バリデーションエラー()
     {
         $response = $this->post('/register', [
             'name' => '',
@@ -26,8 +25,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['name']);
     }
 
-    /** @test */
-    public function メール未入力の場合バリデーションエラー()
+    public function test_メール未入力の場合バリデーションエラー()
     {
         $response = $this->post('/register', [
             'name' => 'テスト太郎',
@@ -39,8 +37,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['email']);
     }
 
-    /** @test */
-    public function パスワード未入力の場合バリデーションエラー()
+    public function test_パスワード未入力の場合バリデーションエラー()
     {
         $response = $this->post('/register', [
             'name' => 'テスト太郎',
@@ -52,8 +49,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['password']);
     }
 
-    /** @test */
-    public function パスワードが8文字未満の場合バリデーションエラー()
+    public function test_パスワードが8文字未満の場合バリデーションエラー()
     {
         $response = $this->post('/register', [
             'name' => 'テスト太郎',
@@ -65,8 +61,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['password']);
     }
 
-    /** @test */
-    public function パスワードが一致しない場合バリデーションエラー()
+    public function test_パスワードが一致しない場合バリデーションエラー()
     {
         $response = $this->post('/register', [
             'name' => 'テスト太郎',
@@ -79,8 +74,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['password_confirmation']);
     }
 
-    /** @test */
-    public function 正常にユーザー登録できる()
+    public function test_正常にユーザー登録できる()
     {
         $response = $this->post('/register', [
             'name' => 'テスト太郎',

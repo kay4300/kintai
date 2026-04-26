@@ -15,8 +15,7 @@ class AdminLoginTest extends TestCase
      */
     use RefreshDatabase;
 
-    /** @test */
-    public function 正常に管理者ログインできる()
+    public function test_正常に管理者ログインできる()
     {
         $admin = AdminUser::factory()->create([
             'password' => Hash::make('password'),

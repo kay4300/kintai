@@ -16,28 +16,30 @@ services:
     volumes:
       - ./src:/var/www/
     depends_on:
-      - mailhog   # 追加
+      - mailhog
 
   mysql:
-    image: mysql:8.0.26
+    image: mysql:8.0.36   # ← 安定版に更新
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: laravel_db
       MYSQL_USER: laravel_user
       MYSQL_PASSWORD: laravel_pass
-    command:
+    command: >
       mysqld --default-authentication-plugin=mysql_native_password
+             --innodb_use_native_aio=0
     volumes:
-      - ./docker/mysql/data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql   # ← ホストに保存しない
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - "3306:3306"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=mysql
-      - PMA_USER=laravel_user
-      - PMA_PASSWORD=laravel_pass
+      PMA_HOST: mysql
+      PMA_USER: laravel_user
+      PMA_PASSWORD: laravel_pass
     depends_on:
       - mysql
     ports:
@@ -46,5 +48,8 @@ services:
   mailhog:
     image: mailhog/mailhog
     ports:
-      - "8025:8025"   # Web UI
-      - "1025:1025"   # SMTP
+      - "8025:8025"
+      - "1025:1025"
+
+volumes:
+  mysql_data:

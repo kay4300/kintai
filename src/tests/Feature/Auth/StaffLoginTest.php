@@ -15,8 +15,7 @@ class StaffLoginTest extends TestCase
      */
     use RefreshDatabase;
 
-    /** @test */
-    public function メール未入力でログインできない()
+    public function test_メール未入力でログインできない()
     {
         $user = User::factory()->create([
             'password' => Hash::make('password'),
@@ -30,8 +29,7 @@ class StaffLoginTest extends TestCase
         $response->assertSessionHasErrors(['email']);
     }
 
-    /** @test */
-    public function パスワード未入力でログインできない()
+    public function test_パスワード未入力でログインできない()
     {
         $user = User::factory()->create([
             'password' => Hash::make('password'),
@@ -45,8 +43,7 @@ class StaffLoginTest extends TestCase
         $response->assertSessionHasErrors(['password']);
     }
 
-    /** @test */
-    public function 認証情報が違うとログインできない()
+    public function test_認証情報が違うとログインできない()
     {
         $user = User::factory()->create([
             'password' => Hash::make('password'),
@@ -60,8 +57,7 @@ class StaffLoginTest extends TestCase
         $response->assertSessionHasErrors();
     }
 
-    /** @test */
-    public function 正常にログインできる()
+    public function test_正常にログインできる()
     {
         $user = User::factory()->create([
             'password' => Hash::make('password'),

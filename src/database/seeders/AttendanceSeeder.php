@@ -40,7 +40,7 @@ class AttendanceSeeder extends Seeder
                     'end_time' => $date->copy()->setTime(18, 0),
                 ]);
 
-                // 👇ここに休憩追加
+                //休憩追加
                 BreakTime::create([
                     'attendance_id' => $attendance->id,
                     'start_time' => $date->copy()->setTime(12, 0),

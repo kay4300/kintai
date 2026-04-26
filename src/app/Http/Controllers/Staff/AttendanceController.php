@@ -216,11 +216,13 @@ class AttendanceController extends Controller
             $requestData = StampCorrectionRequest::where('id', $requestId)
                 ->where('attendance_id', $attendance->id)
                 ->firstOrFail();
+           
         } else {
             // 勤怠一覧から来た場合でも申請を探す
             $requestData = StampCorrectionRequest::where('attendance_id', $attendance->id)
                 ->latest()
                 ->first();
+           
         }
         // 承認待ちかどうか
         $requestData = StampCorrectionRequest::where('attendance_id', $attendance->id)

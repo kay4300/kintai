@@ -14,25 +14,25 @@
 
     <table class="staff-table">
         <thead>
-        <tr>
-            <th>名前</th>
-            <th>メールアドレス</th>
-            <th>月次勤怠</th>
-        </tr>
+            <tr>
+                <th>名前</th>
+                <th>メールアドレス</th>
+                <th>月次勤怠</th>
+            </tr>
         </thead>
 
         <tbody>
-        @foreach ($staffs as $staff)
-        <tr>
-            <td>{{ $staff->name }}</td>
-            <td>{{ $staff->email }}</td>
-            <td>
-                <a href="{{ route('admin.staff.attendance', $staff->id) }}">
-                    詳細
-                </a>
-            </td>
-        </tr>
-        @endforeach
+            @foreach ($staffs as $staff)
+            <tr>
+                <td>{{ $staff->name }}</td>
+                <td>{{ $staff->email }}</td>
+                <td>
+                    <a href="{{ route('admin.staff.attendance', $staff->id) }}">
+                        詳細
+                    </a>
+                </td>
+            </tr>
+            @endforeach
         </tbody>
     </table>
     @endsection

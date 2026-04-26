@@ -49,7 +49,7 @@
             $workMinutes = 0;
 
             if ($attendance) {
-            $breakTotal = $attendance->breaks->sum(function ($break) {
+            $breakTotal = optional($attendance->breakTimes)->sum(function ($break) {
             return \Carbon\Carbon::parse($break->end_time)
             ->diffInMinutes(\Carbon\Carbon::parse($break->start_time));
             });

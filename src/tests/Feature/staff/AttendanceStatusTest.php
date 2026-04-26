@@ -15,8 +15,8 @@ class AttendanceStatusTest extends TestCase
      */
     use RefreshDatabase;
     
-    /** @test */
-    public function 勤務外のステータスが表示される()
+    
+    public function test_勤務外のステータスが表示される()
     {
         $user = User::factory()->create();
 
@@ -28,8 +28,8 @@ class AttendanceStatusTest extends TestCase
         $response->assertSee('勤務外');
     }
 
-    /** @test */
-    public function 出勤中のステータスが表示される()
+    
+    public function test_出勤中のステータスが表示される()
     {
         $user = User::factory()->create();
 
@@ -46,8 +46,8 @@ class AttendanceStatusTest extends TestCase
         $response->assertSee('出勤中');
     }
 
-    /** @test */
-    public function 休憩中のステータスが表示される()
+    
+    public function test_休憩中のステータスが表示される()
     {
         $user = User::factory()->create();
 
@@ -64,8 +64,8 @@ class AttendanceStatusTest extends TestCase
         $response->assertSee('休憩中');
     }
 
-    /** @test */
-    public function 退勤済のステータスが表示される()
+    
+    public function test_退勤済のステータスが表示される()
     {
         $user = User::factory()->create();
 
@@ -83,8 +83,8 @@ class AttendanceStatusTest extends TestCase
     }
 
 
-    /** @test */
-    public function 勤務外のとき出勤ボタンが表示される()
+    
+    public function test_勤務外のとき出勤ボタンが表示される()
     {
         $user = User::factory()->create();
 
@@ -95,8 +95,8 @@ class AttendanceStatusTest extends TestCase
         $response->assertSee('出勤');
     }
 
-    /** @test */
-    public function 出勤中のとき休憩と退勤ボタンが表示される()
+    
+    public function test_出勤中のとき休憩と退勤ボタンが表示される()
     {
         $user = User::factory()->create();
 
@@ -114,8 +114,8 @@ class AttendanceStatusTest extends TestCase
         $response->assertSee('退勤');
     }
 
-    /** @test */
-    public function 休憩中のとき休憩戻ボタンが表示される()
+    
+    public function test_休憩中のとき休憩戻ボタンが表示される()
     {
         $user = User::factory()->create();
 
@@ -132,8 +132,8 @@ class AttendanceStatusTest extends TestCase
         $response->assertSee('休憩戻');
     }
 
-    /** @test */
-    public function 退勤済のときボタンが表示されない()
+    
+    public function test_退勤済のときボタンが表示されない()
     {
         $user = User::factory()->create();
 
@@ -152,9 +152,8 @@ class AttendanceStatusTest extends TestCase
         $response->assertDontSee('休憩戻');
         $response->assertDontSee('>退勤<');
     }
-
-    /** @test */
-    public function 退勤時刻が一覧画面に表示される()
+    
+    public function test_退勤時刻が一覧画面に表示される()
     {
         $user = User::factory()->create();
 

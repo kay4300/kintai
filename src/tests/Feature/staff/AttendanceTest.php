@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\staff;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,7 +17,7 @@ class AttendanceTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function 出勤できる()
+    public function test_出勤できる()
     {
         // dbにダミーデータなくてもここで作成
         $user = \App\Models\User::factory()->create();
@@ -36,7 +36,7 @@ class AttendanceTest extends TestCase
     }
 
     /** @test */
-    public function 退勤できる()
+    public function test_退勤できる()
     {
         $user = \App\Models\User::factory()->create();
 
@@ -68,7 +68,7 @@ class AttendanceTest extends TestCase
     }
 
     /** @test */
-    public function 休憩開始できる()
+    public function test_休憩開始できる()
     {
         $user = \App\Models\User::factory()->create();
 
@@ -100,7 +100,7 @@ class AttendanceTest extends TestCase
     }
 
     /** @test */
-    public function 休憩終了できる()
+    public function test_休憩終了できる()
     {
         $user = \App\Models\User::factory()->create();
 
@@ -140,7 +140,7 @@ class AttendanceTest extends TestCase
     }
 
     /** @test */
-    public function 休憩は複数回できる()
+    public function test_休憩は複数回できる()
     {
         $user = \App\Models\User::factory()->create();
 
@@ -169,8 +169,7 @@ class AttendanceTest extends TestCase
         );
     }
 
-    /** @test */
-    public function 出勤から退勤まで一連の流れができる()
+    public function test_出勤から退勤まで一連の流れができる()
     {
         $user = \App\Models\User::factory()->create();
 
@@ -226,8 +225,7 @@ class AttendanceTest extends TestCase
         $this->assertNotNull($attendance->end_time);
     }
 
-    /** @test */
-    public function 自分の勤怠情報のみ表示される()
+    public function test_自分の勤怠情報のみ表示される()
     {
         $user = \App\Models\User::factory()->create();
         $otherUser = \App\Models\User::factory()->create();
@@ -263,8 +261,7 @@ class AttendanceTest extends TestCase
         $response->assertDontSee('10:00');
     }
 
-    /** @test */
-    public function 現在の月が表示される()
+    public function test_現在の月が表示される()
     {
         $user = \App\Models\User::factory()->create();
 

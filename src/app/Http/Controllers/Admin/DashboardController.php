@@ -53,7 +53,6 @@ class DashboardController extends Controller
         
         // 申請があれば編集不可
         $isPending = !is_null($requestData);
-        // $isLocked = !is_null($requestData);
         // $isPending = $requestData && $requestData->status == 0;
         $isApproveMode = false;
 

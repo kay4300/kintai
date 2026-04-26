@@ -16,8 +16,9 @@ class IndexTest extends TestCase
     use RefreshDatabase;
     
     /** @test */
-    public function 自分の勤怠情報が全て表示される()
+    public function test_自分の勤怠情報が全て表示される()
     {
+
         $user = User::factory()->create();
         $otherUser = User::factory()->create();
 
@@ -58,8 +59,7 @@ class IndexTest extends TestCase
         $response->assertDontSee('08:00');
     }
 
-    /** @test */
-    public function 前月の情報が表示される()
+    public function test_前月の情報が表示される()
     {
         $user = User::factory()->create();
 
@@ -80,8 +80,7 @@ class IndexTest extends TestCase
         $response->assertSee('09:00');
     }
 
-    /** @test */
-    public function 翌月の情報が表示される()
+    public function test_翌月の情報が表示される()
     {
         $user = User::factory()->create();
 
@@ -102,8 +101,7 @@ class IndexTest extends TestCase
         $response->assertSee('09:00');
     }
 
-    /** @test */
-    public function 現在の月が表示される()
+    public function test_現在の月が表示される()
     {
         $user = User::factory()->create();
 
@@ -116,8 +114,7 @@ class IndexTest extends TestCase
         $response->assertSee(now()->format('Y年m月'));
     }
 
-    /** @test */
-    public function 詳細画面に遷移できる()
+    public function test_詳細画面に遷移できる()
     {
         $user = User::factory()->create();
 
