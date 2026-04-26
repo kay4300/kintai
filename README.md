@@ -142,7 +142,7 @@ ER図に基づき以下のテーブルで構成されています。
 
 ### 1. リポジトリをクローン
  
-git clone https://github.com/kay4300/kintai.git
+git clone https://github.com/kay4300/kintai.git  
 cd kintai  
 
 ---
@@ -242,5 +242,3 @@ php artisan test
 
 * ソースコードは `src` ディレクトリ配下に配置されています
 * DBデータはDockerボリュームで管理されています
-
-![alt text](image.png)  
