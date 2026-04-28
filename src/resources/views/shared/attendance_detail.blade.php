@@ -90,8 +90,8 @@
                     @php
                     $breaks = $attendance->breakTimes;
 
-                    $break1 = $breaks[0] ?? null;
-                    $break2 = $breaks[1] ?? null;
+                    $break1 = $breaks->values()[0] ?? null;
+                    $break2 = $breaks->values()[1] ?? null;
                     @endphp
 
                     <th>休憩</th>
@@ -124,16 +124,19 @@
                     <td>
                         <input type="time" name="break_start_2"
                             value="{{ old('break_start_2',
-                                !empty($requestData?->break_start_2)
-                                ? \Carbon\Carbon::parse($break2->start_time)->format('H:i') : '') }}"
+                            $requestData?->break_start_2
+                            ?? ($break2?->start_time
+                            ? \Carbon\Carbon::parse($break2->start_time)->format('H:i')
+                              : '')) }}"
                             {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
 
                         〜
 
                         <input type="time" name="break_end_2"
                             value="{{ old('break_end_2',
-                                !empty($requestData?->break_end_2)
-                                ? \Carbon\Carbon::parse($break2->end_time)->format('H:i') : '') }}"
+                                $requestData?->break_end_2
+                                ?? ($break2?->end_time
+                                ? \Carbon\Carbon::parse($break2->end_time)->format('H:i') : '')) }}"
                             {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
 
                         @error('break')

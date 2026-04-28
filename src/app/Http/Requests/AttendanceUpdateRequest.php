@@ -59,9 +59,15 @@ class AttendanceUpdateRequest extends FormRequest
 
             // 休憩1
             // ② 開始が勤務外
-            if ($this->break_start_1 xor $this->break_end_1) {
+            if (
+                ($this->break_start_1 && !$this->break_end_1) ||
+                (!$this->break_start_1 && $this->break_end_1)
+            ) {
                 $validator->errors()->add('break', '休憩時間が不適切な値です');
             }
+            // if ($this->break_start_1 xor $this->break_end_1) {
+            //     $validator->errors()->add('break', '休憩時間が不適切な値です');
+            // }
 
             if ($this->break_start_1 && $this->break_end_1) {
 
@@ -84,9 +90,15 @@ class AttendanceUpdateRequest extends FormRequest
             }
 
             // 休憩2
-            if ($this->break_start_2 xor $this->break_end_2) {
+            if (
+                ($this->break_start_2 && !$this->break_end_2) ||
+                (!$this->break_start_2 && $this->break_end_2)
+            ) {
                 $validator->errors()->add('break', '休憩時間が不適切な値です');
             }
+            // if ($this->break_start_2 xor $this->break_end_2) {
+            //     $validator->errors()->add('break', '休憩時間が不適切な値です');
+            // }
 
             if ($this->break_start_2 && $this->break_end_2) {
 

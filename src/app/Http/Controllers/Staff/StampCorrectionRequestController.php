@@ -30,10 +30,10 @@ class StampCorrectionRequestController extends Controller
     public function store(Request $request)
     {
         // バリデーション
-        $request->validate([
-            'target_date' => 'required|date',
-            'reason' => 'required|string|max:255',
-        ]);
+        // $request->validate([
+        //     'target_date' => 'required|date',
+        //     'reason' => 'required|string|max:255',
+        // ]);
 
         // 保存
         $attendance = Attendance::findOrFail($request->attendance_id);

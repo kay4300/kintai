@@ -16,9 +16,14 @@ class BreakTimeFactory extends Factory
      */
     public function definition(): array
     {
+        $start = now()->setTime(rand(9, 17), rand(0, 59));
+
         return [
-            'start_time' => now(),
-            'end_time' => now(),
+            'start_time' => $start,
+            'end_time'   => (clone $start)->addMinutes(rand(15, 60)),
+        
+            // 'start_time' => now(),
+            // 'end_time' => now(),
         ];
             //
 
