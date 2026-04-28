@@ -8,6 +8,7 @@
 @endsection
 
 @section('content')
+
 <div class="attendance-detail">
 
     <h1 class="page-title">勤怠詳細</h1>
@@ -17,7 +18,7 @@
     $isApproved = $requestData && $requestData->status == 1;
     @endphp
 
-    
+
     @if($isApproveMode)
 
     {{-- 承認用フォーム --}}
@@ -57,7 +58,7 @@
                     </td>
                 </tr>
 
-                <tr>-;
+                <tr>
                     <th>出勤・退勤</th>
                     <td>
                         <input type="time" name="start_time"
@@ -123,18 +124,16 @@
                     <td>
                         <input type="time" name="break_start_2"
                             value="{{ old('break_start_2',
-                                $requestData?->break_start_2
-                                ?? ($break2?->start_time
-                                ? \Carbon\Carbon::parse($break2->start_time)->format('H:i') : '')) }}"
+                                !empty($requestData?->break_start_2)
+                                ? \Carbon\Carbon::parse($break2->start_time)->format('H:i') : '') }}"
                             {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
 
                         〜
 
                         <input type="time" name="break_end_2"
                             value="{{ old('break_end_2',
-                                $requestData?->break_end_2
-                                ?? ($break2?->end_time
-                                ? \Carbon\Carbon::parse($break2->end_time)->format('H:i') : '')) }}"
+                                !empty($requestData?->break_end_2)
+                                ? \Carbon\Carbon::parse($break2->end_time)->format('H:i') : '') }}"
                             {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
 
                         @error('break')
@@ -148,8 +147,7 @@
                     <th>修正理由</th>
                     <td>
                         <textarea name="reason" rows="3"
-                            {{ $isApproveMode || $isPending ? 'readonly' : '' }}>
-                        {{ $requestData->reason ?? '' }}
+                            {{ $isApproveMode || $isPending ? 'readonly' : '' }}>{{ old('reason', $requestData->reason ?? '') }}
                         </textarea>
 
                         @error('reason')

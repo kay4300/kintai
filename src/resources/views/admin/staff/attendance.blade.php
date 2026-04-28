@@ -13,17 +13,21 @@
 
 
     <div class="month-nav">
-        <a href="{{ route('admin.staff.attendance', ['id' => $staff->id, 'month' => $prevMonth]) }}">
-            ← 前月
-        </a>
+        <div class="last-month">
+            <a href="{{ route('admin.staff.attendance', ['id' => $staff->id, 'month' => $prevMonth]) }}" class="nav-btn">
+                ← 前月
+            </a>
+        </div>
         <div class="month-current">
             <span>📅</span>
             <strong>{{ $currentMonth->format('Y年n月') }}</strong>
         </div>
 
-        <a href="{{ route('admin.staff.attendance', ['id' => $staff->id, 'month' => $nextMonth]) }}">
-            翌月 →
-        </a>
+        <div class="next-month">
+            <a href="{{ route('admin.staff.attendance', ['id' => $staff->id, 'month' => $nextMonth]) }}" class="nav-btn">
+                翌月 →
+            </a>
+        </div>
     </div>
 
 

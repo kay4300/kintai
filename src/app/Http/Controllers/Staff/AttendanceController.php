@@ -255,6 +255,8 @@ class AttendanceController extends Controller
             return back()->with('error', '承認待ちのため修正できません');
         }
 
+        // return redirect()->route('staff.attendance.list')
+        //     ->with('success', '修正しました');
         // 申請データ作成
         StampCorrectionRequest::create([
             'user_id' => auth()->id(),

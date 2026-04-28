@@ -71,6 +71,10 @@ class DashboardController extends Controller
             'target_date' => $attendance->date ?? now(), // カラムに合わせて調整
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'break_start_1' => $request->break_start_1 ?: null,
+            'break_end_1'   => $request->break_end_1 ?: null,
+            'break_start_2' => $request->break_start_2 ?: null,
+            'break_end_2'   => $request->break_end_2 ?: null,
             'reason' => $request->reason,
             'status' => 0, // 承認待ち
         ]);

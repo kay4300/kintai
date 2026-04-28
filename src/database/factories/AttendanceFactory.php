@@ -20,6 +20,7 @@ class AttendanceFactory extends Factory
             'date' => now(),
             'start_time' => now()->setTime(9, 0),
             'end_time' => now()->setTime(18, 0),
+            'status' => 3,
         ];
             //
         

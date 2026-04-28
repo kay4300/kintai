@@ -16,18 +16,22 @@
 
     <!-- 月ナビゲーション -->
     <div class="month-nav">
-        <a href="{{ route('admin.dashboard', ['date' => $prevDate]) }}" class="nav-btn">
-            ← 前日
-        </a>
+        <div class="last-month">
+            <a href="{{ route('admin.dashboard', ['date' => $prevDate]) }}" class="nav-btn">
+                ← 前日
+            </a>
+        </div>
 
         <div class="month-current">
             <span>📅</span>
             <strong>{{ $currentDate }}</strong>
         </div>
 
-        <a href="{{ route('admin.dashboard', ['date' => $nextDate]) }}" class="nav-btn">
-            翌日 →
-        </a>
+        <div class="next-month">
+            <a href="{{ route('admin.dashboard', ['date' => $nextDate]) }}" class="nav-btn">
+                翌日 →
+            </a>
+        </div>
     </div>
 
     <table class="attendance-table">

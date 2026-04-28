@@ -13,18 +13,22 @@
     <h1 class="page-title">勤怠一覧</h1>
     <!-- 月ナビゲーション -->
     <div class="month-nav">
-        <a href="{{ route('staff.attendance.list', ['month' => $prevMonth]) }}" class="btn btn-light">
+        <div class="last-month">
+            <a href="{{ route('staff.attendance.list', ['month' => $prevMonth]) }}" class="nav-btn">
             ← 前月
-        </a>
+            </a>
+        </div>
 
         <div class="month-current">
             <span class="me-2">📅</span>
             <strong>{{ $currentMonth }}</strong>
         </div>
 
-        <a href="{{ route('staff.attendance.list', ['month' => $nextMonth]) }}" class="btn btn-light">
-            翌月 →
-        </a>
+        <div class="next-month">
+            <a href="{{ route('staff.attendance.list', ['month' => $nextMonth]) }}" class="nav-btn">
+                翌月 →
+            </a>
+        </div>
     </div>
 
     <!-- 勤怠一覧 -->
