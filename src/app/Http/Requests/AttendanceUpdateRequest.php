@@ -65,10 +65,7 @@ class AttendanceUpdateRequest extends FormRequest
             ) {
                 $validator->errors()->add('break', '休憩時間が不適切な値です');
             }
-            // if ($this->break_start_1 xor $this->break_end_1) {
-            //     $validator->errors()->add('break', '休憩時間が不適切な値です');
-            // }
-
+            
             if ($this->break_start_1 && $this->break_end_1) {
 
                 $bStart = Carbon::parse($this->break_start_1);
@@ -96,9 +93,7 @@ class AttendanceUpdateRequest extends FormRequest
             ) {
                 $validator->errors()->add('break', '休憩時間が不適切な値です');
             }
-            // if ($this->break_start_2 xor $this->break_end_2) {
-            //     $validator->errors()->add('break', '休憩時間が不適切な値です');
-            // }
+            
 
             if ($this->break_start_2 && $this->break_end_2) {
 

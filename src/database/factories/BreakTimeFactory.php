@@ -22,8 +22,7 @@ class BreakTimeFactory extends Factory
             'start_time' => $start,
             'end_time'   => (clone $start)->addMinutes(rand(15, 60)),
         
-            // 'start_time' => now(),
-            // 'end_time' => now(),
+           
         ];
             //
 
